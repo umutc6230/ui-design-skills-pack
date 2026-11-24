@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up - Data Table Admin UI</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{
+  --table-bg:#f8fafc;--table-surface:#ffffff;--table-header:#f1f5f9;--table-border:#e2e8f0;
+  --table-text:#0f172a;--table-muted:#64748b;--table-primary:#2563eb;--table-selected:#dbeafe;
+  --table-success:#10b981;--table-warning:#f59e0b;--table-danger:#ef4444;--table-row-height:46px;--table-radius:10px;
+}
+*{font-family:'Inter','Segoe UI',system-ui;}
+.mono{font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums;}
+body{background:var(--table-bg);color:var(--table-text);}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.04em;font-weight:600;color:var(--table-muted);}
+td{font-size:13px;}
+tbody tr{height:var(--table-row-height);border-bottom:1px solid var(--table-border);}
+tbody tr:nth-child(even){background:#fbfcfe;}
+tbody tr:hover{background:var(--table-header);}
+.badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;display:inline-flex;align-items:center;gap:4px;}
+.d-input{border:1px solid var(--table-border);background:var(--table-surface);color:var(--table-text);}
+.d-input:focus{outline:none;border-color:var(--table-primary);box-shadow:0 0 0 3px rgba(37,99,235,.15);}
+.d-input.err{border-color:var(--table-danger);box-shadow:0 0 0 3px rgba(239,68,68,.15);}
+.chip{font-size:11px;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--table-selected);color:var(--table-primary);display:inline-flex;align-items:center;gap:6px;}
+</style>
+</head>
+<body class="min-h-screen flex flex-col">
+  <!-- Toolbar -->
+  <header class="flex items-center gap-3 px-5 h-16 bg-white" style="border-bottom:1px solid var(--table-border)">
+    <i class="fa-solid fa-users-gear text-[18px]" style="color:var(--table-primary)"></i>
+    <h1 class="text-[15px] font-bold">User Management</h1>
+    <div class="relative ml-4">
+      <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-[12px]" style="color:var(--table-muted)"></i>
+      <input class="d-input rounded-[10px] pl-9 pr-3 py-2 text-[13px] w-72" placeholder="Search users...">
+    </div>
+    <button class="ml-auto text-[13px] font-bold px-4 py-2 rounded-[10px] text-white flex items-center gap-2" style="background:var(--table-primary)" onclick="openDrawer()"><i class="fa-solid fa-user-plus"></i> New User</button>
+  </header>
+
+  <!-- Filter row -->
+  <div class="flex items-center gap-2 px-5 py-3 bg-white" style="border-bottom:1px solid var(--table-border)">
+    <button class="d-input rounded-[10px] px-3 py-1.5 text-[12px] font-medium flex items-center gap-2"><i class="fa-solid fa-filter text-[11px]"></i> Status <i class="fa-solid fa-chevron-down text-[9px]"></i></button>
+    <button class="d-input rounded-[10px] px-3 py-1.5 text-[12px] font-medium flex items-center gap-2"><i class="fa-regular fa-calendar text-[11px]"></i> Date</button>
+    <span class="chip">Status: Active <i class="fa-solid fa-xmark cursor-pointer"></i></span>
+    <span class="chip">Role: Member <i class="fa-solid fa-xmark cursor-pointer"></i></span>
+    <button class="text-[12px] font-semibold ml-1" style="color:var(--table-primary)">Clear</button>
+  </div>
+
+  <div class="flex-1 flex overflow-hidden">
+    <!-- Table -->
+    <main class="flex-1 overflow-auto p-5">
+      <div class="bg-white rounded-[10px] overflow-hidden" style="border:1px solid var(--table-border)">
+        <!-- Bulk action bar -->
+        <div class="flex items-center gap-3 px-4 h-12" style="background:var(--table-selected);border-bottom:1px solid var(--table-border)">
+          <span class="text-[12px] font-semibold" style="color:var(--table-primary)">2 records selected</span>
+          <button class="text-[12px] font-medium flex items-center gap-1.5" style="color:var(--table-primary)"><i class="fa-solid fa-file-export"></i> Export</button>
+          <button class="text-[12px] font-medium flex items-center gap-1.5" style="color:var(--table-primary)"><i class="fa-solid fa-box-archive"></i> Archive</button>
+          <button class="text-[12px] font-medium flex items-center gap-1.5 ml-auto" style="color:var(--table-danger)"><i class="fa-solid fa-trash"></i> Delete</button>
+        </div>
+        <table class="w-full text-left border-collapse">
+          <thead style="background:var(--table-header)">
+            <tr class="h-11">
+              <th class="px-4 w-10"><input type="checkbox" style="accent-color:var(--table-primary)"></th>
+              <th class="px-2">Full name <i class="fa-solid fa-sort-down text-[10px]"></i></th>
+              <th class="px-2">Email</th>
+              <th class="px-2">Role</th>
+              <th class="px-2">Status</th>
+              <th class="px-2">Registered</th>
+              <th class="px-2 w-10"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background:var(--table-selected)">
+              <td class="px-4"><input type="checkbox" checked style="accent-color:var(--table-primary)"></td>
+              <td class="px-2 font-semibold">Alice Johnson</td>
+              <td class="px-2 mono" style="color:var(--table-muted)">alice@example.com</td>
+              <td class="px-2" style="color:var(--table-muted)">Admin</td>
+              <td class="px-2"><span class="badge" style="background:rgba(16,185,129,.12);color:var(--table-success)"><i class="fa-solid fa-circle text-[6px]"></i> Active</span></td>
+              <td class="px-2 mono" style="color:var(--table-muted)">2026-05-12</td>
+              <td class="px-2"><i class="fa-solid fa-ellipsis-vertical" style="color:var(--table-muted)"></i></td>
+            </tr>
+            <tr style="background:var(--table-selected)">
+              <td class="px-4"><input type="checkbox" checked style="accent-color:var(--table-primary)"></td>
+              <td class="px-2 font-semibold">Michael Davis</td>
+              <td class="px-2 mono" style="color:var(--table-muted)">michael@example.com</td>
+              <td class="px-2" style="color:var(--table-muted)">Member</td>
+              <td class="px-2"><span class="badge" style="background:rgba(245,158,11,.14);color:var(--table-warning)"><i class="fa-solid fa-clock text-[8px]"></i> Pending</span></td>
+              <td class="px-2 mono" style="color:var(--table-muted)">2026-06-01</td>
+              <td class="px-2"><i class="fa-solid fa-ellipsis-vertical" style="color:var(--table-muted)"></i></td>
+            </tr>
+            <tr>
+              <td class="px-4"><input type="checkbox" style="accent-color:var(--table-primary)"></td>
+              <td class="px-2 font-semibold">Emma Carter</td>
+              <td class="px-2 mono" style="color:var(--table-muted)">emma@example.com</td>
+              <td class="px-2" style="color:var(--table-muted)">Member</td>
+              <td class="px-2"><span class="badge" style="background:rgba(239,68,68,.12);color:var(--table-danger)"><i class="fa-solid fa-ban text-[8px]"></i> Inactive</span></td>
+              <td class="px-2 mono" style="color:var(--table-muted)">2026-04-22</td>
+              <td class="px-2"><i class="fa-solid fa-ellipsis-vertical" style="color:var(--table-muted)"></i></td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- Pagination -->
+        <div class="flex items-center gap-3 px-4 h-12" style="border-top:1px solid var(--table-border)">
+          <span class="text-[12px]" style="color:var(--table-muted)">3 records total</span>
+          <div class="ml-auto flex items-center gap-1">
+            <button class="d-input w-8 h-8 rounded-lg text-[12px]" style="color:var(--table-muted)"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="w-8 h-8 rounded-lg text-[12px] text-white font-semibold" style="background:var(--table-primary)">1</button>
+            <button class="d-input w-8 h-8 rounded-lg text-[12px]">2</button>
+            <button class="d-input w-8 h-8 rounded-lg text-[12px]" style="color:var(--table-muted)"><i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Detail drawer = register form -->
+    <aside class="w-[400px] bg-white flex flex-col shrink-0" style="border-left:1px solid var(--table-border)">
+      <div class="flex items-center px-5 h-16" style="border-bottom:1px solid var(--table-border)">
+        <div><h2 class="text-[14px] font-bold">New User Registration</h2><p class="text-[11px]" style="color:var(--table-muted)">Add a new record to the table</p></div>
+        <button class="ml-auto w-8 h-8 rounded-lg" style="color:var(--table-muted)" onclick="closeDrawer()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form id="frm" novalidate class="flex-1 overflow-y-auto p-5 space-y-4">
+        <div>
+          <label class="block text-[12px] font-semibold mb-1.5">Full name</label>
+          <input id="name" class="d-input w-full rounded-[10px] px-3 py-2.5 text-[13px]" placeholder="Full name">
+          <p class="err-msg hidden text-[11px] mt-1" style="color:var(--table-danger)"></p>
+        </div>
+        <div>
+          <label class="block text-[12px] font-semibold mb-1.5">Email</label>
+          <input id="email" class="d-input mono w-full rounded-[10px] px-3 py-2.5 text-[13px]" placeholder="name@example.com">
+          <p class="err-msg hidden text-[11px] mt-1" style="color:var(--table-danger)"></p>
+        </div>
+        <div>
+          <label class="block text-[12px] font-semibold mb-1.5">Password</label>
+          <input id="pw" type="password" class="d-input w-full rounded-[10px] px-3 py-2.5 text-[13px]" placeholder="••••••••">
+          <p class="err-msg hidden text-[11px] mt-1" style="color:var(--table-danger)"></p>
+        </div>
+        <div>
+          <label class="block text-[12px] font-semibold mb-1.5">Confirm password</label>
+          <input id="pw2" type="password" class="d-input w-full rounded-[10px] px-3 py-2.5 text-[13px]" placeholder="••••••••">
+          <p class="err-msg hidden text-[11px] mt-1" style="color:var(--table-danger)"></p>
+        </div>
+        <div>
+          <label class="block text-[12px] font-semibold mb-1.5">Role</label>
+          <select class="d-input w-full rounded-[10px] px-3 py-2.5 text-[13px]"><option>Member</option><option>Admin</option></select>
+        </div>
+        <label class="flex items-start gap-2 cursor-pointer pt-1">
+          <input id="terms" type="checkbox" class="mt-0.5 w-4 h-4 rounded" style="accent-color:var(--table-primary)">
+          <span class="text-[12px]" style="color:var(--table-muted)">I accept the <span class="font-semibold" style="color:var(--table-text)">terms of use</span></span>
+        </label>
+        <p id="terms-err" class="err-msg hidden text-[11px]" style="color:var(--table-danger)"></p>
+        <div id="ok" class="hidden text-[12px] font-semibold p-3 rounded-[10px]" style="background:rgba(16,185,129,.1);color:var(--table-success)"><i class="fa-solid fa-circle-check"></i> User added to the table.</div>
+      </form>
+      <div class="flex items-center gap-3 px-5 py-4" style="border-top:1px solid var(--table-border)">
+        <a href="#" class="text-[12px] font-semibold" style="color:var(--table-primary)">Log in</a>
+        <button type="button" class="ml-auto text-[12px] font-semibold px-4 py-2 rounded-[10px] d-input" style="color:var(--table-muted)" onclick="closeDrawer()">Cancel</button>
+        <button type="submit" form="frm" class="text-[12px] font-bold px-5 py-2 rounded-[10px] text-white flex items-center gap-2" style="background:var(--table-primary)"><i class="fa-solid fa-user-plus"></i> Sign Up</button>
+      </div>
+    </aside>
+  </div>
+
+<script>
+const $=id=>document.getElementById(id);
+function openDrawer(){}
+function closeDrawer(){}
+function setErr(el,msg){const p=el.parentElement.querySelector('.err-msg');el.classList.add('err');if(p){p.textContent=msg;p.classList.remove('hidden');}}
+function clr(el){const p=el.parentElement.querySelector('.err-msg');el.classList.remove('err');if(p)p.classList.add('hidden');}
+$('frm').addEventListener('submit',e=>{
+  e.preventDefault();let ok=true;
+  ['name','email','pw','pw2'].forEach(i=>clr($(i)));$('terms-err').classList.add('hidden');$('ok').classList.add('hidden');
+  if($('name').value.trim().length<3){setErr($('name'),'Full name is required');ok=false;}
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test($('email').value)){setErr($('email'),'Enter a valid email');ok=false;}
+  if($('pw').value.length<6){setErr($('pw'),'Min 6 characters');ok=false;}
+  if($('pw2').value!==$('pw').value||!$('pw2').value){setErr($('pw2'),'Passwords do not match');ok=false;}
+  if(!$('terms').checked){$('terms-err').textContent='Accept the terms';$('terms-err').classList.remove('hidden');ok=false;}
+  if(ok)$('ok').classList.remove('hidden');
+});
+</script>
+</body>
+</html>

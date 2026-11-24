@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up - Claymorphism</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --clay-bg:#fce7f3;--clay-surface:#ffecf2;--clay-surface-2:#dbeafe;--clay-text:#334155;
+    --clay-muted:#64748b;--clay-primary:#ec4899;--clay-secondary:#8b5cf6;--clay-highlight:#ffffff;
+    --clay-radius:30px;
+    --clay-shadow:10px 10px 20px rgba(0,0,0,.06),inset -8px -8px 16px rgba(0,0,0,.08),inset 8px 8px 16px rgba(255,255,255,.75);
+  }
+  body{font-family:'Plus Jakarta Sans',Inter,Nunito,'Segoe UI',sans-serif;color:var(--clay-text);
+    background:linear-gradient(135deg,#fce7f3,#ede9fe 45%,#dbeafe 80%,#dcfce7);min-height:100vh;}
+  .clay-card{background:var(--clay-surface);border-radius:var(--clay-radius);box-shadow:var(--clay-shadow);}
+  .blob{position:fixed;border-radius:50%;filter:blur(8px);opacity:.5;z-index:0;}
+  .field{background:#fff;border-radius:18px;padding:13px 18px;width:100%;outline:none;font-weight:600;color:var(--clay-text);font-size:14px;
+    box-shadow:inset 4px 4px 10px rgba(0,0,0,.06),inset -4px -4px 10px rgba(255,255,255,.9);border:2px solid transparent;}
+  .field::placeholder{color:#a3aec0;font-weight:500;}
+  .field:focus{border-color:var(--clay-primary);box-shadow:inset 4px 4px 10px rgba(0,0,0,.06),0 0 0 4px rgba(236,72,153,.18);}
+  .field.err{border-color:#f43f5e;box-shadow:inset 4px 4px 10px rgba(244,63,94,.12),0 0 0 4px rgba(244,63,94,.15);}
+  .lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--clay-muted);}
+  .errtext{color:#e11d48;font-size:12px;font-weight:600;}
+  .btn-p{background:linear-gradient(145deg,#f472b6,#ec4899);color:#fff;border-radius:22px;font-weight:700;
+    box-shadow:6px 6px 14px rgba(236,72,153,.4),inset -3px -3px 8px rgba(0,0,0,.12),inset 3px 3px 8px rgba(255,255,255,.4);}
+  .btn-p:active{box-shadow:inset 4px 4px 10px rgba(0,0,0,.25);transform:translateY(1px);}
+  .btn-s{background:#fff;color:var(--clay-secondary);border-radius:22px;font-weight:700;
+    box-shadow:6px 6px 14px rgba(0,0,0,.08),inset -3px -3px 8px rgba(0,0,0,.04),inset 3px 3px 8px rgba(255,255,255,.9);}
+  .chip{background:var(--clay-surface-2);border-radius:18px;box-shadow:5px 5px 12px rgba(0,0,0,.07),inset -3px -3px 8px rgba(0,0,0,.05),inset 3px 3px 8px rgba(255,255,255,.85);}
+</style>
+</head>
+<body class="flex items-center justify-center p-4 relative">
+  <div class="blob" style="width:200px;height:200px;background:#f9a8d4;top:8%;left:10%;"></div>
+  <div class="blob" style="width:240px;height:240px;background:#a5b4fc;bottom:6%;right:8%;"></div>
+
+  <div class="clay-card w-full max-w-md p-8 relative z-10">
+    <div class="flex items-center gap-3 mb-5">
+      <div class="chip w-14 h-14 flex items-center justify-center text-2xl" style="color:var(--clay-primary);">
+        <i class="fa-solid fa-seedling"></i>
+      </div>
+      <div>
+        <h1 class="text-2xl font-extrabold leading-tight">Join Us 🌸</h1>
+        <p class="text-sm font-medium" style="color:var(--clay-muted);">Create your account in a few steps</p>
+      </div>
+    </div>
+
+    <form id="frm" class="space-y-4" novalidate>
+      <div>
+        <label class="lbl block mb-1.5" for="ad">Full Name</label>
+        <input id="ad" class="field" type="text" placeholder="Your full name">
+        <div class="errtext mt-1 hidden" data-e="ad"></div>
+      </div>
+      <div>
+        <label class="lbl block mb-1.5" for="email">Email</label>
+        <input id="email" class="field" type="text" placeholder="you@example.com">
+        <div class="errtext mt-1 hidden" data-e="email"></div>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="lbl block mb-1.5" for="pw">Password</label>
+          <input id="pw" class="field" type="password" placeholder="••••••">
+          <div class="errtext mt-1 hidden" data-e="pw"></div>
+        </div>
+        <div>
+          <label class="lbl block mb-1.5" for="pw2">Confirm</label>
+          <input id="pw2" class="field" type="password" placeholder="••••••">
+          <div class="errtext mt-1 hidden" data-e="pw2"></div>
+        </div>
+      </div>
+
+      <label class="flex items-center gap-3 cursor-pointer chip p-3">
+        <input id="terms" type="checkbox" class="w-5 h-5 rounded-lg accent-pink-500">
+        <span class="text-sm font-semibold">I accept the <span style="color:var(--clay-primary);">Terms</span> and the privacy policy 💜</span>
+      </label>
+      <div class="errtext hidden" data-e="terms"></div>
+
+      <div id="toast" class="hidden chip p-3 text-sm font-semibold flex items-center gap-2"></div>
+
+      <div class="flex gap-3 pt-1">
+        <button type="reset" class="btn-s flex-1 py-3.5">Clear</button>
+        <button type="submit" class="btn-p flex-[2] py-3.5"><i class="fa-solid fa-heart"></i> Create Account</button>
+      </div>
+    </form>
+
+    <p class="text-center text-sm font-medium mt-5" style="color:var(--clay-muted);">
+      Already have an account? <a href="#" class="font-bold" style="color:var(--clay-secondary);">Sign In</a>
+    </p>
+  </div>
+
+<script>
+const f=document.getElementById('frm'),toast=document.getElementById('toast');
+const show=(k,m)=>{const e=document.querySelector(`[data-e="${k}"]`);e.textContent=m;e.classList.remove('hidden');const i=document.getElementById(k);if(i)i.classList.add('err');};
+const clr=()=>{document.querySelectorAll('.errtext').forEach(e=>e.classList.add('hidden'));document.querySelectorAll('.field').forEach(e=>e.classList.remove('err'));toast.classList.add('hidden');};
+f.addEventListener('submit',ev=>{
+  ev.preventDefault();clr();let ok=true;
+  const ad=document.getElementById('ad').value.trim(),em=document.getElementById('email').value.trim();
+  const pw=document.getElementById('pw').value,pw2=document.getElementById('pw2').value;
+  if(!ad){show('ad','Full name cannot be empty.');ok=false;}
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){show('email','Enter a valid email.');ok=false;}
+  if(pw.length<6){show('pw','At least 6 characters.');ok=false;}
+  if(pw2!==pw||!pw2){show('pw2','Does not match.');ok=false;}
+  if(!document.getElementById('terms').checked){show('terms','Please accept the terms.');ok=false;}
+  toast.classList.remove('hidden');
+  if(ok){toast.style.color='#15803d';toast.innerHTML='<i class="fa-solid fa-circle-check"></i> Hooray! Your account is ready 🎉';}
+  else{toast.style.color='#e11d48';toast.innerHTML='<i class="fa-solid fa-circle-exclamation"></i> Please check some of the fields.';}
+});
+</script>
+</body>
+</html>

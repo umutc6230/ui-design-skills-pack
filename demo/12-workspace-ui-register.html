@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up - Workspace UI</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{
+  --ws-bg:#0f172a;--ws-panel:#111827;--ws-panel-2:#1f2937;--ws-border:#334155;
+  --ws-text:#e5e7eb;--ws-muted:#94a3b8;--ws-primary:#6366f1;
+  --ws-success:#22c55e;--ws-warning:#f97316;--ws-danger:#ef4444;
+  --ws-row:32px;--ws-radius:8px;
+}
+*{font-family:'Inter','Segoe UI',system-ui;}
+.mono{font-family:'JetBrains Mono',monospace;}
+body{background:var(--ws-bg);color:var(--ws-text);}
+.shell{display:grid;grid-template-columns:52px 260px minmax(0,1fr) 360px;grid-template-rows:40px minmax(0,1fr) 160px 24px;height:100vh;}
+.label{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ws-muted);}
+.ws-input{background:var(--ws-bg);border:1px solid var(--ws-border);color:var(--ws-text);}
+.ws-input:focus{outline:none;border-color:var(--ws-primary);box-shadow:0 0 0 3px rgba(99,102,241,.25);}
+.ws-input.err{border-color:var(--ws-danger);box-shadow:0 0 0 3px rgba(239,68,68,.22);}
+.rail-item{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:8px;color:var(--ws-muted);}
+.rail-item:hover{color:var(--ws-text);background:var(--ws-panel-2);}
+.rail-item.active{color:#fff;background:var(--ws-primary);}
+.tree-row{height:28px;display:flex;align-items:center;gap:6px;padding:0 10px;font-size:12px;color:var(--ws-muted);border-radius:6px;}
+.tree-row:hover{background:var(--ws-panel-2);color:var(--ws-text);}
+.tree-row.active{background:rgba(99,102,241,.18);color:var(--ws-text);}
+</style>
+</head>
+<body>
+<div class="shell">
+  <!-- Activity rail -->
+  <div class="row-span-4 flex flex-col items-center py-2 gap-1" style="background:var(--ws-panel);border-right:1px solid var(--ws-border)">
+    <div class="rail-item active"><i class="fa-solid fa-users"></i></div>
+    <div class="rail-item"><i class="fa-solid fa-folder"></i></div>
+    <div class="rail-item"><i class="fa-solid fa-magnifying-glass"></i></div>
+    <div class="rail-item"><i class="fa-solid fa-code-branch"></i></div>
+    <div class="mt-auto rail-item"><i class="fa-solid fa-gear"></i></div>
+  </div>
+
+  <!-- Top bar (spans tree+editor+inspector) -->
+  <div class="col-span-3 flex items-center px-3 gap-3 text-[12px]" style="background:var(--ws-panel);border-bottom:1px solid var(--ws-border)">
+    <span class="mono" style="color:var(--ws-muted)">workspace/</span>
+    <span class="font-semibold">accounts</span>
+    <span style="color:var(--ws-muted)">/ register.cfg</span>
+    <span class="ml-auto inline-flex items-center gap-1.5 text-[10px] px-2 py-1 rounded mono" style="background:var(--ws-panel-2);color:var(--ws-muted)"><i class="fa-solid fa-keyboard"></i> Ctrl+Shift+P</span>
+  </div>
+
+  <!-- Explorer -->
+  <div class="overflow-y-auto py-2" style="background:var(--ws-panel);border-right:1px solid var(--ws-border)">
+    <div class="px-2.5 pb-1 flex items-center justify-between"><span class="label">Explorer</span><i class="fa-solid fa-ellipsis text-[11px]" style="color:var(--ws-muted)"></i></div>
+    <div class="tree-row"><i class="fa-solid fa-chevron-down text-[8px]"></i><i class="fa-solid fa-folder-open text-[11px]" style="color:var(--ws-warning)"></i> accounts</div>
+    <div class="tree-row active pl-7"><i class="fa-solid fa-user-plus text-[11px]" style="color:var(--ws-primary)"></i> register.cfg <span class="ml-auto w-1.5 h-1.5 rounded-full" style="background:var(--ws-warning)"></span></div>
+    <div class="tree-row pl-7"><i class="fa-regular fa-file text-[11px]"></i> roles.json</div>
+    <div class="tree-row pl-7"><i class="fa-regular fa-file text-[11px]"></i> policy.md</div>
+    <div class="tree-row"><i class="fa-solid fa-chevron-right text-[8px]"></i><i class="fa-solid fa-folder text-[11px]" style="color:var(--ws-warning)"></i> templates</div>
+  </div>
+
+  <!-- Editor -->
+  <div class="overflow-y-auto flex flex-col" style="background:var(--ws-bg)">
+    <!-- Tabs -->
+    <div class="flex items-stretch text-[12px]" style="background:var(--ws-panel);border-bottom:1px solid var(--ws-border)">
+      <div class="flex items-center gap-2 px-3 h-9 border-r" style="background:var(--ws-bg);border-color:var(--ws-border)">
+        <i class="fa-solid fa-user-plus text-[11px]" style="color:var(--ws-primary)"></i> register.cfg
+        <span class="w-2 h-2 rounded-full" style="background:var(--ws-warning)" title="unsaved"></span>
+      </div>
+      <div class="flex items-center gap-2 px-3 h-9 border-r" style="border-color:var(--ws-border);color:var(--ws-muted)">roles.json <i class="fa-solid fa-xmark text-[10px]"></i></div>
+    </div>
+
+    <!-- Register form as editor content -->
+    <div class="p-6 max-w-xl">
+      <h1 class="text-[16px] font-bold mb-1">Create New Account</h1>
+      <p class="text-[12px] mb-5" style="color:var(--ws-muted)">Fill in the sign-up form to add a member to the workspace.</p>
+      <form id="frm" novalidate class="space-y-4">
+        <div>
+          <label class="label block mb-1.5">Full name</label>
+          <input id="name" class="ws-input w-full rounded-[8px] px-3 py-2 text-[13px]" placeholder="Full name">
+          <p class="err-msg hidden text-[11px] mt-1" style="color:var(--ws-danger)"></p>
+        </div>
+        <div>
+          <label class="label block mb-1.5">Email</label>
+          <input id="email" class="ws-input mono w-full rounded-[8px] px-3 py-2 text-[13px]" placeholder="name@example.com">
+          <p class="err-msg hidden text-[11px] mt-1" style="color:var(--ws-danger)"></p>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="label block mb-1.5">Password</label>
+            <input id="pw" type="password" class="ws-input w-full rounded-[8px] px-3 py-2 text-[13px]" placeholder="••••••••">
+            <p class="err-msg hidden text-[11px] mt-1" style="color:var(--ws-danger)"></p>
+          </div>
+          <div>
+            <label class="label block mb-1.5">Confirm password</label>
+            <input id="pw2" type="password" class="ws-input w-full rounded-[8px] px-3 py-2 text-[13px]" placeholder="••••••••">
+            <p class="err-msg hidden text-[11px] mt-1" style="color:var(--ws-danger)"></p>
+          </div>
+        </div>
+        <label class="flex items-center gap-2 cursor-pointer">
+          <input id="terms" type="checkbox" class="w-4 h-4 rounded" style="accent-color:var(--ws-primary)">
+          <span class="text-[12px]" style="color:var(--ws-muted)">I accept the <span class="font-semibold" style="color:var(--ws-text)">terms of use</span></span>
+        </label>
+        <p id="terms-err" class="err-msg hidden text-[11px]" style="color:var(--ws-danger)"></p>
+        <div class="flex items-center gap-3 pt-1">
+          <button type="submit" class="h-9 px-5 rounded-[8px] text-white text-[12px] font-bold flex items-center gap-2" style="background:var(--ws-primary)"><i class="fa-solid fa-floppy-disk"></i> Sign Up</button>
+          <a href="#" class="text-[12px] font-semibold" style="color:var(--ws-primary)">I already have an account</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Inspector -->
+  <div class="overflow-y-auto p-3" style="background:var(--ws-panel);border-left:1px solid var(--ws-border)">
+    <div class="label mb-3">Inspector</div>
+    <div class="space-y-2 text-[12px]">
+      <div class="flex justify-between"><span style="color:var(--ws-muted)">Role</span><span class="mono">member</span></div>
+      <div class="flex justify-between"><span style="color:var(--ws-muted)">Password strength</span><span style="color:var(--ws-warning)" id="strength">-</span></div>
+      <div class="flex justify-between"><span style="color:var(--ws-muted)">Validation</span><span id="vstate" style="color:var(--ws-muted)">pending</span></div>
+      <div class="flex justify-between"><span style="color:var(--ws-muted)">Format</span><span class="mono">cfg</span></div>
+    </div>
+    <div class="mt-4 p-2.5 rounded-[8px] text-[11px]" style="background:var(--ws-panel-2);color:var(--ws-muted)">
+      <i class="fa-solid fa-circle-info" style="color:var(--ws-primary)"></i> You have unsaved changes. Save with <kbd class="mono">Ctrl+S</kbd>.
+    </div>
+  </div>
+
+  <!-- Bottom panel -->
+  <div class="col-span-3 overflow-hidden flex flex-col" style="background:var(--ws-panel);border-top:1px solid var(--ws-border)">
+    <div class="flex items-center gap-4 px-3 h-8 text-[11px] border-b" style="border-color:var(--ws-border)">
+      <span class="font-semibold" style="color:var(--ws-text);border-bottom:2px solid var(--ws-primary);height:32px;display:flex;align-items:center">EVENT LOG</span>
+      <span style="color:var(--ws-muted)">TERMINAL</span>
+      <span style="color:var(--ws-muted)">PROBLEMS <span class="px-1.5 rounded-full text-[9px]" style="background:var(--ws-danger);color:#fff" id="probcount">0</span></span>
+    </div>
+    <div id="log" class="mono text-[11px] p-2.5 overflow-y-auto leading-relaxed" style="color:var(--ws-muted)">
+      <div><span style="color:var(--ws-success)">●</span> register.cfg opened</div>
+      <div><span style="color:var(--ws-warning)">●</span> waiting for form validation...</div>
+    </div>
+  </div>
+
+  <!-- Status bar -->
+  <div class="col-span-3 flex items-center px-3 gap-4 text-[11px]" style="background:var(--ws-primary);color:#fff">
+    <span><i class="fa-solid fa-code-branch"></i> main</span>
+    <span><i class="fa-solid fa-circle-xmark"></i> <span id="sb-err">0</span></span>
+    <span class="ml-auto">UTF-8</span><span>Sign-up Module</span>
+  </div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+function setErr(el,msg){const p=el.parentElement.querySelector('.err-msg');el.classList.add('err');if(p){p.textContent=msg;p.classList.remove('hidden');}}
+function clr(el){const p=el.parentElement.querySelector('.err-msg');el.classList.remove('err');if(p)p.classList.add('hidden');}
+function logLine(c,t){const d=document.createElement('div');d.innerHTML='<span style="color:'+c+'">●</span> '+t;$('log').prepend(d);}
+$('pw').addEventListener('input',()=>{const v=$('pw').value.length;$('strength').textContent=v<6?'weak':v<10?'medium':'strong';$('strength').style.color=v<6?'var(--ws-danger)':v<10?'var(--ws-warning)':'var(--ws-success)';});
+$('frm').addEventListener('submit',e=>{
+  e.preventDefault();let ok=true,errs=0;
+  ['name','email','pw','pw2'].forEach(i=>clr($(i)));$('terms-err').classList.add('hidden');
+  if($('name').value.trim().length<3){setErr($('name'),'Full name required');ok=false;errs++;}
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test($('email').value)){setErr($('email'),'Enter a valid email');ok=false;errs++;}
+  if($('pw').value.length<6){setErr($('pw'),'Min 6 characters');ok=false;errs++;}
+  if($('pw2').value!==$('pw').value||!$('pw2').value){setErr($('pw2'),'Passwords do not match');ok=false;errs++;}
+  if(!$('terms').checked){$('terms-err').textContent='Accept the terms';$('terms-err').classList.remove('hidden');ok=false;errs++;}
+  $('probcount').textContent=errs;$('sb-err').textContent=errs;
+  if(ok){$('vstate').textContent='passed';$('vstate').style.color='var(--ws-success)';logLine('var(--ws-success)','account created ✓');}
+  else{$('vstate').textContent='failed';$('vstate').style.color='var(--ws-danger)';logLine('var(--ws-danger)',errs+' validation error(s)');}
+});
+</script>
+</body>
+</html>

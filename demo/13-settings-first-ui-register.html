@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up - Settings-First UI</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{
+  --settings-bg:#f8fafc;--settings-surface:#ffffff;--settings-border:#e2e8f0;
+  --settings-text:#0f172a;--settings-muted:#64748b;--settings-primary:#2563eb;
+  --settings-valid:#10b981;--settings-warning:#f59e0b;--settings-danger:#ef4444;
+  --settings-radius:12px;--settings-row:44px;--settings-gap:16px;
+}
+*{font-family:'Inter','Segoe UI',system-ui;}
+.mono{font-family:'JetBrains Mono',monospace;}
+body{background:var(--settings-bg);color:var(--settings-text);}
+.nav-item{display:flex;align-items:center;gap:10px;height:40px;padding:0 12px;border-radius:10px;font-size:13px;color:var(--settings-muted);font-weight:500;}
+.nav-item:hover{background:#fff;}
+.nav-item.active{background:#fff;color:var(--settings-text);font-weight:600;box-shadow:0 1px 2px rgba(15,23,42,.06);}
+.card{background:var(--settings-surface);border:1px solid var(--settings-border);border-radius:var(--settings-radius);}
+.s-input{background:var(--settings-surface);border:1px solid var(--settings-border);color:var(--settings-text);}
+.s-input:focus{outline:none;border-color:var(--settings-primary);box-shadow:0 0 0 3px rgba(37,99,235,.15);}
+.s-input.err{border-color:var(--settings-danger);box-shadow:0 0 0 3px rgba(239,68,68,.15);}
+.s-input.valid{border-color:var(--settings-valid);}
+</style>
+</head>
+<body class="min-h-screen">
+<div class="max-w-5xl mx-auto py-8 px-6">
+  <div class="card overflow-hidden flex" style="min-height:640px">
+    <!-- Settings nav -->
+    <aside class="w-60 p-3 shrink-0" style="background:var(--settings-bg);border-right:1px solid var(--settings-border)">
+      <div class="px-3 py-2 mb-2">
+        <div class="text-[15px] font-bold flex items-center gap-2"><i class="fa-solid fa-sliders" style="color:var(--settings-primary)"></i> Account Setup</div>
+      </div>
+      <div class="nav-item active"><i class="fa-solid fa-user-gear w-4"></i> Registration Details <span class="ml-auto w-2 h-2 rounded-full" style="background:var(--settings-warning)"></span></div>
+      <div class="nav-item"><i class="fa-solid fa-shield-halved w-4"></i> Security</div>
+      <div class="nav-item"><i class="fa-solid fa-bell w-4"></i> Notifications</div>
+      <div class="nav-item"><i class="fa-solid fa-plug w-4"></i> Integrations</div>
+      <div class="nav-item"><i class="fa-solid fa-credit-card w-4"></i> Billing</div>
+    </aside>
+
+    <!-- Main -->
+    <div class="flex-1 flex flex-col">
+      <form id="frm" novalidate class="flex-1 overflow-y-auto p-6">
+        <div class="mb-5">
+          <h1 class="text-[22px] font-bold">Registration Details</h1>
+          <p class="text-[12px] mt-1" style="color:var(--settings-muted)">Fill in the fields below to create your new account. Sensitive values are masked.</p>
+        </div>
+
+        <!-- Validation summary -->
+        <div id="vsum" class="hidden mb-4 rounded-[12px] p-3 text-[12px]" style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.3);color:var(--settings-danger)">
+          <strong><i class="fa-solid fa-triangle-exclamation"></i> Some fields need to be fixed:</strong>
+          <ul id="vlist" class="list-disc ml-5 mt-1"></ul>
+        </div>
+
+        <!-- Section: identity -->
+        <div class="card p-5 mb-5">
+          <div class="mb-4"><h2 class="text-[14px] font-bold">Identity</h2><p class="text-[11px]" style="color:var(--settings-muted)">Basic details that will appear on your profile.</p></div>
+          <div class="space-y-4">
+            <div>
+              <label class="block text-[12px] font-semibold mb-1.5">Full Name</label>
+              <input id="name" class="s-input w-full rounded-[10px] px-3 py-2.5 text-[13px]" placeholder="Full name">
+              <p class="text-[11px] mt-1" style="color:var(--settings-muted)">We recommend using your real name.</p>
+              <p class="err-msg hidden text-[11px] font-medium mt-1" style="color:var(--settings-danger)"></p>
+            </div>
+            <div>
+              <label class="block text-[12px] font-semibold mb-1.5">Email</label>
+              <input id="email" class="s-input mono w-full rounded-[10px] px-3 py-2.5 text-[13px]" placeholder="name@example.com">
+              <p class="text-[11px] mt-1" style="color:var(--settings-muted)">The verification link will be sent to this address.</p>
+              <p class="err-msg hidden text-[11px] font-medium mt-1" style="color:var(--settings-danger)"></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section: security -->
+        <div class="card p-5 mb-5">
+          <div class="mb-4"><h2 class="text-[14px] font-bold">Security</h2><p class="text-[11px]" style="color:var(--settings-muted)">Your password is kept masked; use the eye icon to show it.</p></div>
+          <div class="space-y-4">
+            <div>
+              <label class="block text-[12px] font-semibold mb-1.5">Password</label>
+              <div class="relative">
+                <input id="pw" type="password" class="s-input mono w-full rounded-[10px] px-3 py-2.5 pr-10 text-[13px]" placeholder="••••••••">
+                <button type="button" onclick="tg('pw',this)" class="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-lg" style="color:var(--settings-muted)"><i class="fa-solid fa-eye text-[12px]"></i></button>
+              </div>
+              <p class="err-msg hidden text-[11px] font-medium mt-1" style="color:var(--settings-danger)"></p>
+            </div>
+            <div>
+              <label class="block text-[12px] font-semibold mb-1.5">Confirm Password</label>
+              <div class="relative">
+                <input id="pw2" type="password" class="s-input mono w-full rounded-[10px] px-3 py-2.5 pr-10 text-[13px]" placeholder="••••••••">
+                <button type="button" onclick="tg('pw2',this)" class="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-lg" style="color:var(--settings-muted)"><i class="fa-solid fa-eye text-[12px]"></i></button>
+              </div>
+              <p class="err-msg hidden text-[11px] font-medium mt-1" style="color:var(--settings-danger)"></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Toggle / terms row -->
+        <div class="card p-5">
+          <div class="flex items-center justify-between" style="min-height:var(--settings-row)">
+            <div><div class="text-[13px] font-semibold">Terms of use</div><div class="text-[11px]" style="color:var(--settings-muted)">Accept the terms of service and privacy policy.</div></div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input id="terms" type="checkbox" class="sr-only peer">
+              <span class="w-11 h-6 rounded-full bg-slate-300 peer-checked:bg-[var(--settings-primary)] transition relative after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:w-5 after:h-5 after:bg-white after:rounded-full after:transition peer-checked:after:translate-x-5"></span>
+            </label>
+          </div>
+          <p id="terms-err" class="err-msg hidden text-[11px] font-medium mt-2" style="color:var(--settings-danger)"></p>
+        </div>
+      </form>
+
+      <!-- Sticky save bar -->
+      <div class="flex items-center gap-3 px-6 py-3 border-t" style="border-color:var(--settings-border);background:var(--settings-surface)">
+        <span id="unsaved" class="text-[12px] flex items-center gap-1.5" style="color:var(--settings-warning)"><i class="fa-solid fa-circle text-[7px]"></i> Unsaved changes</span>
+        <a href="#" class="ml-auto text-[12px] font-semibold" style="color:var(--settings-primary)">Log in</a>
+        <button type="button" class="text-[12px] font-semibold px-4 py-2 rounded-[10px] border" style="border-color:var(--settings-border);color:var(--settings-muted)">Reset</button>
+        <button type="submit" form="frm" class="text-[12px] font-bold px-5 py-2 rounded-[10px] text-white flex items-center gap-2" style="background:var(--settings-primary)"><i class="fa-solid fa-check"></i> Sign Up</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+function tg(id,btn){const el=$(id);el.type=el.type==='password'?'text':'password';btn.querySelector('i').className='fa-solid '+(el.type==='text'?'fa-eye-slash':'fa-eye')+' text-[12px]';}
+function setErr(el,msg){const p=el.closest('div').parentElement.querySelector('.err-msg');el.classList.add('err');el.classList.remove('valid');if(p){p.textContent=msg;p.classList.remove('hidden');}return msg;}
+function ok2(el){const p=el.closest('div').parentElement.querySelector('.err-msg');el.classList.remove('err');el.classList.add('valid');if(p)p.classList.add('hidden');}
+$('frm').addEventListener('submit',e=>{
+  e.preventDefault();let errs=[];
+  if($('name').value.trim().length<3)errs.push(setErr($('name'),'Full name is required'));else ok2($('name'));
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test($('email').value))errs.push(setErr($('email'),'Enter a valid email'));else ok2($('email'));
+  if($('pw').value.length<6)errs.push(setErr($('pw'),'Min 6 characters'));else ok2($('pw'));
+  if($('pw2').value!==$('pw').value||!$('pw2').value)errs.push(setErr($('pw2'),'Passwords do not match'));else ok2($('pw2'));
+  if(!$('terms').checked){$('terms-err').textContent='Accept the terms';$('terms-err').classList.remove('hidden');errs.push('Accept the terms');}else $('terms-err').classList.add('hidden');
+  if(errs.length){$('vsum').classList.remove('hidden');$('vlist').innerHTML=errs.map(x=>'<li>'+x+'</li>').join('');}
+  else{$('vsum').classList.add('hidden');$('unsaved').innerHTML='<i class="fa-solid fa-circle-check"></i> Account created successfully';$('unsaved').style.color='var(--settings-valid)';}
+});
+</script>
+</body>
+</html>

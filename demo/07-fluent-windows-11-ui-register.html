@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up - Fluent / Windows 11</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{
+  --bg:#F5F9FF; --mica:rgba(255,255,255,.72); --surface:rgba(255,255,255,.86);
+  --border:#DCEBFF; --accent:#2F6FEB; --muted:#6B7280; --text:#111827; --radius:12px;
+  --shadow:0 8px 24px rgba(17,24,39,.08);
+}
+*{font-family:"Segoe UI Variable","Segoe UI","Inter",sans-serif;}
+body{
+  color:var(--text);
+  background:
+    radial-gradient(900px 500px at 12% 0%,#E8F0FE 0%,transparent 55%),
+    radial-gradient(900px 600px at 100% 100%,#DCEBFF 0%,transparent 50%),
+    var(--bg);
+}
+.mica{background:var(--mica);backdrop-filter:blur(28px);border:1px solid var(--border);}
+.surface{background:var(--surface);backdrop-filter:blur(20px);border:1px solid var(--border);box-shadow:var(--shadow);border-radius:var(--radius);}
+.nav{transition:background .15s ease-out;border-radius:8px;}
+.nav:hover{background:rgba(47,111,235,.08);}
+.nav.active{background:rgba(47,111,235,.12);position:relative;color:#2F6FEB;font-weight:600;}
+.nav.active::before{content:"";position:absolute;left:0;top:9px;bottom:9px;width:3px;border-radius:3px;background:#2F6FEB;}
+.fin{background:#fff;border:1px solid var(--border);border-radius:8px;transition:border-color .15s,box-shadow .15s;}
+.fin:focus-within{border-color:#2F6FEB;box-shadow:0 0 0 2px rgba(47,111,235,.25);}
+.fin input{outline:none;background:transparent;}
+.fin.err{border-color:#D13438;box-shadow:0 0 0 2px rgba(209,52,56,.18);}
+.btn{background:#2F6FEB;border:1px solid #2862d4;transition:all .15s ease-out;box-shadow:0 2px 6px rgba(47,111,235,.3);}
+.btn:hover{background:#3b79f0;}
+.btn:active{transform:scale(.985);background:#2862d4;}
+.btn:focus-visible{outline:2px solid #111827;outline-offset:2px;}
+.cmd:hover{background:rgba(47,111,235,.08);}
+</style>
+</head>
+<body class="min-h-screen p-5">
+<div class="max-w-[1180px] mx-auto mica rounded-2xl overflow-hidden shadow-xl">
+  <!-- title bar -->
+  <div class="flex items-center justify-between px-4 h-11 border-b" style="border-color:var(--border)">
+    <div class="flex items-center gap-2 text-[13px] text-[#6B7280]">
+      <i class="fa-brands fa-windows text-[#2F6FEB]"></i>
+      <span class="font-medium text-[#111827]">Accounts</span>
+      <span>- Sign up</span>
+    </div>
+    <div class="flex items-center gap-1 text-[#6B7280]">
+      <span class="w-8 h-8 grid place-items-center hover:bg-black/5 rounded"><i class="fa-solid fa-minus text-xs"></i></span>
+      <span class="w-8 h-8 grid place-items-center hover:bg-black/5 rounded"><i class="fa-regular fa-square text-xs"></i></span>
+      <span class="w-8 h-8 grid place-items-center hover:bg-red-500 hover:text-white rounded"><i class="fa-solid fa-xmark text-xs"></i></span>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-[240px_1fr]">
+    <!-- NavigationView -->
+    <aside class="p-3 border-r" style="border-color:var(--border)">
+      <div class="fin flex items-center gap-2 px-3 h-9 mb-3 !rounded-lg">
+        <i class="fa-solid fa-magnifying-glass text-[#6B7280] text-xs"></i>
+        <input class="text-[13px] w-full" placeholder="Search">
+      </div>
+      <nav class="flex flex-col gap-1 text-[14px] text-[#374151]">
+        <a class="nav active px-3 h-11 flex items-center gap-3"><i class="fa-solid fa-user-plus w-4"></i> Create account</a>
+        <a class="nav px-3 h-11 flex items-center gap-3"><i class="fa-solid fa-right-to-bracket w-4"></i> Sign in</a>
+        <a class="nav px-3 h-11 flex items-center gap-3"><i class="fa-solid fa-shield-halved w-4"></i> Security</a>
+        <a class="nav px-3 h-11 flex items-center gap-3"><i class="fa-solid fa-gear w-4"></i> Settings</a>
+      </nav>
+    </aside>
+
+    <!-- content -->
+    <main class="p-7 bg-white/40">
+      <!-- command bar -->
+      <div class="surface flex items-center gap-1 px-2 h-12 mb-6">
+        <button class="cmd flex items-center gap-2 px-3 h-9 rounded-md text-[13px] text-[#2F6FEB] font-medium"><i class="fa-solid fa-plus"></i> New</button>
+        <button class="cmd flex items-center gap-2 px-3 h-9 rounded-md text-[13px] text-[#374151]"><i class="fa-solid fa-rotate"></i> Refresh</button>
+        <div class="ml-auto"></div>
+        <button class="cmd w-9 h-9 grid place-items-center rounded-md text-[#374151]"><i class="fa-solid fa-ellipsis"></i></button>
+      </div>
+
+      <h1 class="text-[28px] font-semibold mb-1">Create a Microsoft account</h1>
+      <p class="text-[#6B7280] text-[14px] mb-7">To sign in across all Windows apps.</p>
+
+      <form id="form" novalidate class="surface p-7 max-w-[640px] grid gap-5">
+        <div>
+          <label class="block text-[13px] font-medium mb-1.5">Full name</label>
+          <div class="fin flex items-center gap-2 px-3 h-11"><i class="fa-solid fa-user text-[#9aa3b2] text-sm"></i><input id="name" class="text-[14px] w-full" placeholder="Full name"></div>
+          <p class="msg text-[12px] text-[#D13438] mt-1 hidden">Please enter your full name.</p>
+        </div>
+        <div>
+          <label class="block text-[13px] font-medium mb-1.5">Email</label>
+          <div class="fin flex items-center gap-2 px-3 h-11"><i class="fa-solid fa-envelope text-[#9aa3b2] text-sm"></i><input id="email" type="email" class="text-[14px] w-full" placeholder="example@outlook.com"></div>
+          <p class="msg text-[12px] text-[#D13438] mt-1 hidden">Enter a valid email address.</p>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-5">
+          <div>
+            <label class="block text-[13px] font-medium mb-1.5">Password</label>
+            <div class="fin flex items-center gap-2 px-3 h-11"><i class="fa-solid fa-lock text-[#9aa3b2] text-sm"></i><input id="pass" type="password" class="text-[14px] w-full" placeholder="••••••••"></div>
+            <p class="msg text-[12px] text-[#D13438] mt-1 hidden">At least 6 characters.</p>
+          </div>
+          <div>
+            <label class="block text-[13px] font-medium mb-1.5">Confirm password</label>
+            <div class="fin flex items-center gap-2 px-3 h-11"><i class="fa-solid fa-lock text-[#9aa3b2] text-sm"></i><input id="pass2" type="password" class="text-[14px] w-full" placeholder="••••••••"></div>
+            <p class="msg text-[12px] text-[#D13438] mt-1 hidden">Passwords do not match.</p>
+          </div>
+        </div>
+        <div>
+          <label class="flex items-start gap-2.5 cursor-pointer">
+            <input id="terms" type="checkbox" class="mt-0.5 w-4 h-4 accent-[#2F6FEB]">
+            <span class="text-[13px] text-[#374151]">I accept the Microsoft Services Agreement and privacy statement.</span>
+          </label>
+          <p class="msg text-[12px] text-[#D13438] mt-1 hidden">Accept to continue.</p>
+        </div>
+        <div class="flex items-center gap-3 pt-1">
+          <button id="submit" type="submit" class="btn text-white text-[14px] font-medium px-6 h-11 rounded-lg"><i class="fa-solid fa-arrow-right mr-2"></i>Create account</button>
+          <a href="#" class="text-[13px] text-[#2F6FEB] hover:underline">I already have an account</a>
+        </div>
+        <p id="ok" class="hidden text-[13px] text-[#107C41] bg-[#DFF6E3] border border-[#A7E3B5] rounded-lg px-4 py-3"><i class="fa-solid fa-circle-check mr-2"></i>Your account was created successfully.</p>
+      </form>
+    </main>
+  </div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+function setErr(input,on){const w=input.closest('.fin');if(w)w.classList.toggle('err',on);const p=(w?w.parentElement:input.parentElement).querySelector('.msg');if(p)p.classList.toggle('hidden',!on);}
+$('form').addEventListener('submit',e=>{
+  e.preventDefault();let ok=true;
+  const n=$('name'),em=$('email'),p=$('pass'),p2=$('pass2');
+  if(!n.value.trim()){setErr(n,true);ok=false;}else setErr(n,false);
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em.value)){setErr(em,true);ok=false;}else setErr(em,false);
+  if(p.value.length<6){setErr(p,true);ok=false;}else setErr(p,false);
+  if(p2.value!==p.value||!p2.value){setErr(p2,true);ok=false;}else setErr(p2,false);
+  const tm=$('terms').parentElement.parentElement.querySelector('.msg');
+  if(!$('terms').checked){tm.classList.remove('hidden');ok=false;}else tm.classList.add('hidden');
+  if(ok)$('ok').classList.remove('hidden');
+});
+</script>
+</body>
+</html>

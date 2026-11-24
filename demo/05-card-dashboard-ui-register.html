@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sign Up - Card Dashboard</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<style>
+:root{--bg:#F8FAFC;--surface:#FFFFFF;--border:#E2E8F0;--accent:#2563EB;--success:#10B981;--text:#0F172A;--radius:18px;--shadow:0 10px 30px rgba(15,23,42,.07);}
+body{font-family:'Inter','Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+h1,h2,.display{font-family:'Plus Jakarta Sans','Inter',sans-serif;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);transition:all .22s ease;}
+.card.lift:hover{transform:translateY(-2px);}
+.field{border:1px solid var(--border);transition:all .18s ease;}
+.field:focus{outline:none;border-color:#2563EB;box-shadow:0 0 0 2px rgba(37,99,235,.4);}
+.field.invalid{border-color:#ef4444;box-shadow:0 0 0 2px rgba(239,68,68,.35);}
+.btn-primary{background:#2563EB;transition:all .18s ease;}
+.btn-primary:hover{background:#1d54d8;box-shadow:0 8px 20px rgba(37,99,235,.3);}
+.btn-primary:active{transform:scale(.98);}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed;box-shadow:none;}
+.nav-item{color:#64748b;transition:.15s;}
+.nav-item:hover{background:#F1F5F9;color:var(--text);}
+.nav-item.active{background:rgba(37,99,235,.1);color:#2563EB;font-weight:600;}
+.err-text{color:#dc2626;}
+</style>
+</head>
+<body>
+<div class="min-h-screen flex">
+  <!-- sidebar -->
+  <aside class="hidden lg:flex flex-col w-60 shrink-0 bg-white" style="border-right:1px solid var(--border);">
+    <div class="h-16 flex items-center gap-2.5 px-5" style="border-bottom:1px solid var(--border);">
+      <div class="w-8 h-8 rounded-lg bg-[#2563EB] flex items-center justify-center text-white"><i class="fa-solid fa-chart-pie"></i></div>
+      <span class="display font-bold">Metrik</span>
+    </div>
+    <nav class="p-3 space-y-1 text-sm">
+      <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl"><i class="fa-solid fa-gauge-high w-5"></i> Dashboard</a>
+      <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl"><i class="fa-solid fa-chart-column w-5"></i> Analytics</a>
+      <a href="#" class="nav-item active flex items-center gap-3 px-3 py-2.5 rounded-xl"><i class="fa-solid fa-user-plus w-5"></i> Add Member</a>
+      <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl"><i class="fa-solid fa-wallet w-5"></i> Invoices</a>
+      <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl"><i class="fa-solid fa-gear w-5"></i> Settings</a>
+    </nav>
+  </aside>
+
+  <!-- main -->
+  <main class="flex-1 flex flex-col min-w-0">
+    <header class="h-16 bg-white flex items-center justify-between px-6 shrink-0" style="border-bottom:1px solid var(--border);">
+      <div><h1 class="display font-bold" style="font-size:20px;">New Member Registration</h1>
+        <p class="text-xs" style="color:#64748b;">Dashboard / Members</p></div>
+      <div class="flex items-center gap-3">
+        <span class="text-xs px-3 py-1.5 rounded-full font-medium" style="background:rgba(16,185,129,.12);color:#047857;"><i class="fa-solid fa-circle text-[7px] mr-1"></i> Live</span>
+        <div class="w-9 h-9 rounded-full bg-[#E2E8F0] flex items-center justify-center text-xs font-semibold" style="color:#64748b;">MK</div>
+      </div>
+    </header>
+
+    <div class="flex-1 overflow-auto p-6">
+      <!-- KPI grid -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
+        <div class="card lift p-5">
+          <div class="flex items-center justify-between"><span class="text-xs font-medium" style="color:#64748b;">Total Members</span><i class="fa-solid fa-users text-[#2563EB]"></i></div>
+          <p class="display font-bold mt-2" style="font-size:26px;">12,480</p>
+          <p class="text-xs mt-1 font-medium" style="color:#10B981;"><i class="fa-solid fa-arrow-up"></i> 8.2% this month</p>
+        </div>
+        <div class="card lift p-5">
+          <div class="flex items-center justify-between"><span class="text-xs font-medium" style="color:#64748b;">New Signups</span><i class="fa-solid fa-user-plus text-[#10B981]"></i></div>
+          <p class="display font-bold mt-2" style="font-size:26px;">342</p>
+          <p class="text-xs mt-1 font-medium" style="color:#10B981;"><i class="fa-solid fa-arrow-up"></i> 12% this week</p>
+        </div>
+        <div class="card lift p-5">
+          <div class="flex items-center justify-between"><span class="text-xs font-medium" style="color:#64748b;">Active Rate</span><i class="fa-solid fa-bolt text-[#2563EB]"></i></div>
+          <p class="display font-bold mt-2" style="font-size:26px;">73%</p>
+          <p class="text-xs mt-1 font-medium" style="color:#64748b;">Last month 71%</p>
+        </div>
+        <div class="card lift p-5">
+          <div class="flex items-center justify-between"><span class="text-xs font-medium" style="color:#64748b;">Pending</span><i class="fa-solid fa-clock" style="color:#f59e0b;"></i></div>
+          <p class="display font-bold mt-2" style="font-size:26px;">18</p>
+          <p class="text-xs mt-1 font-medium" style="color:#64748b;">Awaiting approval</p>
+        </div>
+      </div>
+
+      <!-- form card + side -->
+      <div class="grid grid-cols-1 xl:grid-cols-3 gap-5">
+        <!-- register card 2/3 -->
+        <div class="card p-7 xl:col-span-2">
+          <div class="flex items-center justify-between mb-1">
+            <h2 class="display font-bold" style="font-size:20px;">Sign Up</h2>
+            <span class="text-xs px-2.5 py-1 rounded-md font-medium" style="background:#F1F5F9;color:#64748b;">Form</span>
+          </div>
+          <p class="text-sm mb-6" style="color:#64748b;">Enter the details for the new member account.</p>
+
+          <form id="form" novalidate class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium mb-1.5" for="name">Full Name</label>
+              <input id="name" type="text" class="field w-full rounded-xl px-4 py-2.5 text-sm" placeholder="Full name" />
+              <p class="err-text text-xs mt-1 hidden" data-err></p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1.5" for="email">Email</label>
+              <input id="email" type="email" class="field w-full rounded-xl px-4 py-2.5 text-sm" placeholder="name@example.com" />
+              <p class="err-text text-xs mt-1 hidden" data-err></p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-medium mb-1.5" for="pass">Password</label>
+                <input id="pass" type="password" class="field w-full rounded-xl px-4 py-2.5 text-sm" placeholder="••••••••" />
+                <p class="err-text text-xs mt-1 hidden" data-err></p>
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-1.5" for="pass2">Confirm Password</label>
+                <input id="pass2" type="password" class="field w-full rounded-xl px-4 py-2.5 text-sm" placeholder="••••••••" />
+                <p class="err-text text-xs mt-1 hidden" data-err></p>
+              </div>
+            </div>
+            <div>
+              <label class="flex items-start gap-2.5 text-sm cursor-pointer" style="color:#64748b;">
+                <input id="terms" type="checkbox" class="mt-0.5 w-4 h-4 rounded accent-[#2563EB]" />
+                <span>I accept the <a href="#" class="text-[#2563EB] font-medium">terms of use</a> and the privacy policy.</span>
+              </label>
+              <p class="err-text text-xs mt-1 hidden" data-err></p>
+            </div>
+            <div class="flex items-center gap-3 pt-1">
+              <button id="submit" type="submit" class="btn-primary rounded-xl px-6 py-2.5 text-white font-semibold text-sm flex items-center gap-2">
+                <span id="btnText">Create Account</span><i id="spin" class="fa-solid fa-circle-notch fa-spin hidden"></i>
+              </button>
+              <span id="ok" class="hidden text-sm font-medium" style="color:#047857;"><i class="fa-solid fa-circle-check mr-1"></i> Member created.</span>
+            </div>
+          </form>
+          <p class="text-sm mt-6 pt-5" style="color:#64748b;border-top:1px solid var(--border);">Already have an account? <a href="#" class="text-[#2563EB] font-semibold">Log in</a></p>
+        </div>
+
+        <!-- side list 1/3 -->
+        <div class="card p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="display font-bold" style="font-size:16px;">Recent Signups</h2>
+            <span class="text-xs px-2 py-1 rounded-md" style="background:#F1F5F9;color:#64748b;">7 days</span>
+          </div>
+          <ul class="space-y-3 text-sm">
+            <li class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-[#DBEAFE] text-[#2563EB] flex items-center justify-center text-xs font-semibold">EW</div><div class="min-w-0 flex-1"><p class="font-medium truncate">Emma Wilson</p><p class="text-xs" style="color:#64748b;">2 hours ago</p></div><span class="text-xs px-2 py-0.5 rounded-full" style="background:rgba(16,185,129,.12);color:#047857;">Active</span></li>
+            <li class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-[#DCFCE7] text-[#047857] flex items-center justify-center text-xs font-semibold">AC</div><div class="min-w-0 flex-1"><p class="font-medium truncate">Adam Carter</p><p class="text-xs" style="color:#64748b;">5 hours ago</p></div><span class="text-xs px-2 py-0.5 rounded-full" style="background:rgba(245,158,11,.14);color:#b45309;">Pending</span></li>
+            <li class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-[#E2E8F0] text-[#64748b] flex items-center justify-center text-xs font-semibold">SM</div><div class="min-w-0 flex-1"><p class="font-medium truncate">Sophie Miller</p><p class="text-xs" style="color:#64748b;">Yesterday</p></div><span class="text-xs px-2 py-0.5 rounded-full" style="background:rgba(16,185,129,.12);color:#047857;">Active</span></li>
+          </ul>
+          <div class="mt-5 pt-5 text-center" style="border-top:1px solid var(--border);">
+            <i class="fa-regular fa-folder-open text-2xl mb-2" style="color:#cbd5e1;"></i>
+            <p class="text-xs" style="color:#64748b;">No more records to show.</p>
+            <button class="mt-2 text-xs font-semibold text-[#2563EB]">Import all</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+const f=document.getElementById('form');
+const setErr=(el,msg)=>{const p=el.parentElement.querySelector('[data-err]');el.classList.add('invalid');p.textContent=msg;p.classList.remove('hidden');};
+const clr=el=>{const p=el.parentElement.querySelector('[data-err]');el.classList.remove('invalid');if(p)p.classList.add('hidden');};
+['name','email','pass','pass2'].forEach(id=>document.getElementById(id).addEventListener('input',e=>clr(e.target)));
+f.addEventListener('submit',e=>{
+  e.preventDefault();document.getElementById('ok').classList.add('hidden');
+  const name=document.getElementById('name'),email=document.getElementById('email'),pass=document.getElementById('pass'),pass2=document.getElementById('pass2'),terms=document.getElementById('terms');
+  let ok=true;
+  if(name.value.trim().length<3){setErr(name,'Please enter your full name.');ok=false;}
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value)){setErr(email,'Enter a valid email address.');ok=false;}
+  if(pass.value.length<8){setErr(pass,'Password must be at least 8 characters.');ok=false;}
+  if(pass2.value!==pass.value||!pass2.value){setErr(pass2,'Passwords do not match.');ok=false;}
+  if(!terms.checked){setErr(terms,'You must accept the terms.');ok=false;}
+  if(!ok)return;
+  const btn=document.getElementById('submit');btn.disabled=true;
+  document.getElementById('spin').classList.remove('hidden');document.getElementById('btnText').textContent='Creating';
+  setTimeout(()=>{btn.disabled=false;document.getElementById('spin').classList.add('hidden');document.getElementById('btnText').textContent='Create Account';
+    document.getElementById('ok').classList.remove('hidden');f.reset();},1300);
+});
+</script>
+</body>
+</html>

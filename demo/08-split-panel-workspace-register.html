@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up - Split Panel Workspace</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{
+  --bg:#F8FAFC; --surface:#FFFFFF; --border:#E2E8F0; --accent:#1D4ED8;
+  --slate:#334155; --text:#0F172A; --radius:12px; --shadow:0 8px 24px rgba(15,23,42,.06);
+}
+*{font-family:'Inter','Segoe UI',sans-serif;}
+.mono{font-family:'JetBrains Mono',monospace;}
+body{background:var(--bg);color:var(--text);}
+.surface{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);}
+.tree:hover{background:#F1F5F9;}
+.tree.active{background:#EFF4FF;color:#1D4ED8;font-weight:600;}
+.tab{border-bottom:2px solid transparent;transition:.15s;}
+.tab.active{border-color:#1D4ED8;color:#1D4ED8;background:#fff;}
+.tab:not(.active):hover{background:#F1F5F9;}
+.fin{border:1px solid var(--border);border-radius:8px;background:#fff;transition:.15s;}
+.fin:focus-within{border-color:#1D4ED8;box-shadow:0 0 0 2px rgba(29,78,216,.18);}
+.fin.err{border-color:#DC2626;box-shadow:0 0 0 2px rgba(220,38,38,.15);}
+.fin input{outline:none;background:transparent;}
+.btn{background:#1D4ED8;transition:.15s;}
+.btn:hover{background:#1e40af;}
+.btn:active{transform:scale(.985);}
+.btn:focus-visible{outline:2px solid #0F172A;outline-offset:2px;}
+.divider{width:1px;background:var(--border);}
+</style>
+</head>
+<body class="min-h-screen p-4">
+<div class="max-w-[1340px] mx-auto surface overflow-hidden flex flex-col h-[88vh]">
+  <!-- top: tabs + breadcrumb -->
+  <div class="flex items-center border-b" style="border-color:var(--border)">
+    <div class="flex items-center gap-2 px-4 text-[13px] text-[#334155]">
+      <i class="fa-solid fa-layer-group text-[#1D4ED8]"></i><span class="font-semibold">Workspace</span>
+    </div>
+    <div class="flex">
+      <button class="tab active px-4 py-3 text-[13px] flex items-center gap-2"><i class="fa-solid fa-user-plus text-xs"></i> register.tsx <i class="fa-solid fa-circle text-[6px] text-[#1D4ED8]"></i></button>
+      <button class="tab px-4 py-3 text-[13px] text-[#334155] flex items-center gap-2"><i class="fa-solid fa-file-lines text-xs"></i> notes.md</button>
+      <button class="tab px-4 py-3 text-[13px] text-[#334155] flex items-center gap-2"><i class="fa-solid fa-gear text-xs"></i> config.json</button>
+    </div>
+    <div class="ml-auto px-4 text-[#64748B]"><i class="fa-solid fa-ellipsis"></i></div>
+  </div>
+
+  <div class="grid grid-cols-[260px_1px_1fr_1px_320px] flex-1 min-h-0">
+    <!-- left: file tree -->
+    <aside class="flex flex-col min-h-0">
+      <div class="p-3 border-b" style="border-color:var(--border)">
+        <div class="fin flex items-center gap-2 px-2.5 h-8"><i class="fa-solid fa-magnifying-glass text-[#94A3B8] text-xs"></i><input class="text-[13px] w-full" placeholder="Search files"></div>
+      </div>
+      <div class="p-2 text-[13px] text-[#334155] overflow-auto">
+        <p class="px-2 py-1 text-[11px] uppercase tracking-wide text-[#94A3B8]">PROJECT</p>
+        <div class="tree active rounded-md px-2 py-1.5 flex items-center gap-2 cursor-pointer"><i class="fa-solid fa-chevron-down text-[10px]"></i><i class="fa-regular fa-folder-open text-[#1D4ED8]"></i> auth</div>
+        <div class="tree rounded-md px-2 py-1.5 ml-4 flex items-center gap-2 cursor-pointer"><i class="fa-solid fa-user-plus text-[#1D4ED8]"></i> register.tsx</div>
+        <div class="tree rounded-md px-2 py-1.5 ml-4 flex items-center gap-2 cursor-pointer"><i class="fa-solid fa-right-to-bracket text-[#64748B]"></i> login.tsx</div>
+        <div class="tree rounded-md px-2 py-1.5 flex items-center gap-2 cursor-pointer"><i class="fa-solid fa-chevron-right text-[10px]"></i><i class="fa-regular fa-folder text-[#64748B]"></i> components</div>
+        <div class="tree rounded-md px-2 py-1.5 flex items-center gap-2 cursor-pointer"><i class="fa-solid fa-chevron-right text-[10px]"></i><i class="fa-regular fa-folder text-[#64748B]"></i> hooks</div>
+        <div class="tree rounded-md px-2 py-1.5 flex items-center gap-2 cursor-pointer"><i class="fa-regular fa-file text-[#64748B]"></i> package.json</div>
+      </div>
+    </aside>
+    <div class="divider"></div>
+
+    <!-- center: editor = register form -->
+    <main class="flex flex-col min-h-0 bg-[#FCFDFE]">
+      <div class="px-5 py-2.5 border-b text-[12px] text-[#64748B] flex items-center gap-2" style="border-color:var(--border)">
+        <span>auth</span><i class="fa-solid fa-chevron-right text-[9px]"></i><span class="text-[#0F172A] font-medium">register.tsx</span>
+      </div>
+      <div class="overflow-auto p-8">
+        <h1 class="text-[28px] font-bold mb-1">Create Account</h1>
+        <p class="text-[#64748B] text-[14px] mb-7">Sign up to join the workspace.</p>
+        <form id="form" novalidate class="max-w-[520px] grid gap-5">
+          <div>
+            <label class="block text-[13px] font-medium text-[#334155] mb-1.5">Full name</label>
+            <div class="fin flex items-center gap-2 px-3 h-11"><i class="fa-solid fa-user text-[#94A3B8] text-sm"></i><input id="name" class="text-[14px] w-full" placeholder="Full name"></div>
+            <p class="msg text-[12px] text-[#DC2626] mt-1 hidden">Please enter your full name.</p>
+          </div>
+          <div>
+            <label class="block text-[13px] font-medium text-[#334155] mb-1.5">Email</label>
+            <div class="fin flex items-center gap-2 px-3 h-11"><i class="fa-solid fa-envelope text-[#94A3B8] text-sm"></i><input id="email" type="email" class="text-[14px] w-full" placeholder="name@example.com"></div>
+            <p class="msg text-[12px] text-[#DC2626] mt-1 hidden">Enter a valid email address.</p>
+          </div>
+          <div class="grid sm:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-[13px] font-medium text-[#334155] mb-1.5">Password</label>
+              <div class="fin flex items-center gap-2 px-3 h-11"><i class="fa-solid fa-lock text-[#94A3B8] text-sm"></i><input id="pass" type="password" class="text-[14px] w-full" placeholder="••••••••"></div>
+              <p class="msg text-[12px] text-[#DC2626] mt-1 hidden">At least 6 characters.</p>
+            </div>
+            <div>
+              <label class="block text-[13px] font-medium text-[#334155] mb-1.5">Confirm password</label>
+              <div class="fin flex items-center gap-2 px-3 h-11"><i class="fa-solid fa-lock text-[#94A3B8] text-sm"></i><input id="pass2" type="password" class="text-[14px] w-full" placeholder="••••••••"></div>
+              <p class="msg text-[12px] text-[#DC2626] mt-1 hidden">Passwords do not match.</p>
+            </div>
+          </div>
+          <div>
+            <label class="flex items-start gap-2.5 cursor-pointer">
+              <input id="terms" type="checkbox" class="mt-0.5 w-4 h-4 accent-[#1D4ED8]">
+              <span class="text-[13px] text-[#334155]">I accept the terms of use and the privacy policy.</span>
+            </label>
+            <p class="msg text-[12px] text-[#DC2626] mt-1 hidden">Accept to continue.</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <button id="submit" type="submit" class="btn text-white text-[14px] font-medium px-6 h-11 rounded-lg"><i class="fa-solid fa-user-plus mr-2"></i>Sign Up</button>
+            <a href="#" class="text-[13px] text-[#1D4ED8] hover:underline">Sign in</a>
+          </div>
+          <p id="ok" class="hidden text-[13px] text-[#15803D] bg-[#F0FDF4] border border-[#BBF7D0] rounded-lg px-4 py-3"><i class="fa-solid fa-circle-check mr-2"></i>Sign-up complete.</p>
+        </form>
+      </div>
+    </main>
+    <div class="divider"></div>
+
+    <!-- right: detail/properties pane -->
+    <aside class="flex flex-col min-h-0 bg-[#FCFDFE]">
+      <div class="px-4 py-2.5 border-b text-[12px] font-semibold uppercase tracking-wide text-[#64748B]" style="border-color:var(--border)">Properties</div>
+      <div class="p-4 text-[13px] text-[#334155] space-y-4 overflow-auto">
+        <div class="surface p-3">
+          <p class="text-[11px] uppercase text-[#94A3B8] mb-1">Document</p>
+          <p class="font-semibold">register.tsx</p>
+          <p class="text-[12px] text-[#64748B] mono mt-1">142 lines · UTF-8</p>
+        </div>
+        <div class="surface p-3">
+          <p class="text-[11px] uppercase text-[#94A3B8] mb-2">Form fields</p>
+          <ul class="space-y-1.5 mono text-[12px]">
+            <li class="flex justify-between"><span>name</span><span class="text-[#1D4ED8]">required</span></li>
+            <li class="flex justify-between"><span>email</span><span class="text-[#1D4ED8]">email</span></li>
+            <li class="flex justify-between"><span>pass</span><span class="text-[#1D4ED8]">min:6</span></li>
+            <li class="flex justify-between"><span>terms</span><span class="text-[#1D4ED8]">checked</span></li>
+          </ul>
+        </div>
+        <div class="surface p-3 text-[12px] text-[#64748B]">
+          <i class="fa-regular fa-floppy-disk text-[#F59E0B] mr-1"></i> Unsaved changes
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- status bar -->
+  <div class="flex items-center gap-4 px-4 h-7 text-[11px] text-white bg-[#1D4ED8] mono">
+    <span><i class="fa-solid fa-code-branch mr-1"></i>main</span>
+    <span>Ln 24, Col 12</span>
+    <span>UTF-8</span>
+    <span>TSX</span>
+    <span class="ml-auto"><i class="fa-solid fa-rotate mr-1"></i>Synced</span>
+  </div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+function setErr(input,on){const w=input.closest('.fin');if(w)w.classList.toggle('err',on);const p=(w?w.parentElement:input.parentElement).querySelector('.msg');if(p)p.classList.toggle('hidden',!on);}
+$('form').addEventListener('submit',e=>{
+  e.preventDefault();let ok=true;
+  const n=$('name'),em=$('email'),p=$('pass'),p2=$('pass2');
+  if(!n.value.trim()){setErr(n,true);ok=false;}else setErr(n,false);
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em.value)){setErr(em,true);ok=false;}else setErr(em,false);
+  if(p.value.length<6){setErr(p,true);ok=false;}else setErr(p,false);
+  if(p2.value!==p.value||!p2.value){setErr(p2,true);ok=false;}else setErr(p2,false);
+  const tm=$('terms').parentElement.parentElement.querySelector('.msg');
+  if(!$('terms').checked){tm.classList.remove('hidden');ok=false;}else tm.classList.add('hidden');
+  if(ok)$('ok').classList.remove('hidden');
+});
+</script>
+</body>
+</html>

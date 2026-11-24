@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up - Floating Tool Window</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{
+  --tool-bg:#ffffff;--tool-bg-muted:#f8fafc;--tool-border:#e2e8f0;
+  --tool-text:#0f172a;--tool-muted:#64748b;--tool-primary:#4f46e5;
+  --tool-success:#10b981;--tool-warning:#f59e0b;--tool-danger:#ef4444;
+  --tool-radius:14px;--tool-shadow:0 20px 50px rgba(15,23,42,.18);
+}
+body{font-family:'Inter','Segoe UI',system-ui;background:
+  radial-gradient(circle at 20% 20%,#1e293b,#0f172a 60%);}
+.mono{font-family:'JetBrains Mono',monospace;}
+.floating-tool{background:var(--tool-bg);color:var(--tool-text);
+  border:1px solid var(--tool-border);border-radius:var(--tool-radius);
+  box-shadow:var(--tool-shadow);}
+.field-input{border:1px solid var(--tool-border);background:var(--tool-bg-muted);}
+.field-input:focus{outline:none;border-color:var(--tool-primary);
+  box-shadow:0 0 0 3px rgba(79,70,229,.15);background:#fff;}
+.field-input.err{border-color:var(--tool-danger);box-shadow:0 0 0 3px rgba(239,68,68,.15);}
+.icon-btn{width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:8px;color:var(--tool-muted);}
+.icon-btn:hover{background:var(--tool-bg-muted);color:var(--tool-text);}
+.tooltip{position:relative;}
+.tooltip:hover::after{content:attr(data-tip);position:absolute;bottom:-26px;left:50%;transform:translateX(-50%);
+  background:#0f172a;color:#fff;font-size:9px;font-weight:600;padding:3px 7px;border-radius:6px;white-space:nowrap;z-index:20;}
+</style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-6">
+
+<div class="floating-tool w-[340px] select-none">
+  <!-- Drag bar -->
+  <div class="flex items-center justify-between px-3 h-10 border-b cursor-move" style="border-color:var(--tool-border)">
+    <div class="flex items-center gap-2">
+      <span class="w-6 h-6 rounded-lg flex items-center justify-center text-white text-[11px]" style="background:var(--tool-primary)">
+        <i class="fa-solid fa-user-plus"></i>
+      </span>
+      <span class="font-bold text-[13px]" style="color:var(--tool-text)">Quick Sign Up</span>
+    </div>
+    <div class="flex items-center gap-0.5">
+      <button class="icon-btn tooltip" data-tip="Pin"><i class="fa-solid fa-thumbtack text-[11px]" style="color:var(--tool-primary)"></i></button>
+      <button class="icon-btn tooltip" data-tip="Minimize"><i class="fa-solid fa-minus text-[11px]"></i></button>
+      <button class="icon-btn tooltip" data-tip="Close"><i class="fa-solid fa-xmark text-[12px]"></i></button>
+    </div>
+  </div>
+
+  <!-- Status row -->
+  <div class="flex items-center justify-between px-3 py-2" style="background:var(--tool-bg-muted)">
+    <span class="inline-flex items-center gap-1.5 text-[10px] font-semibold px-2 py-1 rounded-full" style="color:var(--tool-success);background:rgba(16,185,129,.12)">
+      <span class="w-1.5 h-1.5 rounded-full" style="background:var(--tool-success)"></span>Connected
+    </span>
+    <span class="mono text-[10px]" style="color:var(--tool-muted)">⌘ + ⇧ + R</span>
+  </div>
+
+  <!-- Form -->
+  <form id="frm" novalidate class="p-3 pt-2.5 space-y-2.5">
+    <div>
+      <label class="block text-[10px] font-semibold mb-1" style="color:var(--tool-muted)">FULL NAME</label>
+      <input id="name" type="text" placeholder="Full name" class="field-input w-full rounded-[10px] px-2.5 py-2 text-[12px]" style="color:var(--tool-text)">
+      <p class="err-msg hidden text-[9px] font-semibold mt-1" style="color:var(--tool-danger)"></p>
+    </div>
+    <div>
+      <label class="block text-[10px] font-semibold mb-1" style="color:var(--tool-muted)">EMAIL</label>
+      <input id="email" type="email" placeholder="name@example.com" class="field-input w-full rounded-[10px] px-2.5 py-2 text-[12px] mono" style="color:var(--tool-text)">
+      <p class="err-msg hidden text-[9px] font-semibold mt-1" style="color:var(--tool-danger)"></p>
+    </div>
+    <div class="grid grid-cols-2 gap-2">
+      <div>
+        <label class="block text-[10px] font-semibold mb-1" style="color:var(--tool-muted)">PASSWORD</label>
+        <input id="pw" type="password" placeholder="••••••" class="field-input w-full rounded-[10px] px-2.5 py-2 text-[12px]" style="color:var(--tool-text)">
+        <p class="err-msg hidden text-[9px] font-semibold mt-1" style="color:var(--tool-danger)"></p>
+      </div>
+      <div>
+        <label class="block text-[10px] font-semibold mb-1" style="color:var(--tool-muted)">CONFIRM</label>
+        <input id="pw2" type="password" placeholder="••••••" class="field-input w-full rounded-[10px] px-2.5 py-2 text-[12px]" style="color:var(--tool-text)">
+        <p class="err-msg hidden text-[9px] font-semibold mt-1" style="color:var(--tool-danger)"></p>
+      </div>
+    </div>
+
+    <label class="flex items-start gap-2 cursor-pointer pt-0.5">
+      <input id="terms" type="checkbox" class="mt-0.5 w-3.5 h-3.5 rounded" style="accent-color:var(--tool-primary)">
+      <span class="text-[10px] leading-tight" style="color:var(--tool-muted)">I accept the <span style="color:var(--tool-primary)" class="font-semibold">Terms of Use</span>.</span>
+    </label>
+    <p id="terms-err" class="err-msg hidden text-[9px] font-semibold" style="color:var(--tool-danger)"></p>
+
+    <!-- Action row -->
+    <div class="flex items-center gap-2 pt-1">
+      <button type="submit" id="submit" class="flex-1 h-9 rounded-[10px] text-white text-[12px] font-bold flex items-center justify-center gap-2 transition" style="background:var(--tool-primary)">
+        <i class="fa-solid fa-bolt text-[11px]"></i> Sign Up
+      </button>
+      <button type="button" class="icon-btn tooltip border" style="border-color:var(--tool-border);width:36px;height:36px;border-radius:10px" data-tip="Clear"><i class="fa-solid fa-eraser"></i></button>
+    </div>
+
+    <!-- Toast / preview -->
+    <div id="toast" class="hidden items-center gap-2 text-[10px] font-semibold px-2.5 py-2 rounded-[10px]" style="color:var(--tool-success);background:rgba(16,185,129,.12)">
+      <i class="fa-solid fa-circle-check"></i> Sign-up complete, welcome!
+    </div>
+  </form>
+
+  <div class="px-3 py-2 border-t text-center" style="border-color:var(--tool-border);background:var(--tool-bg-muted)">
+    <span class="text-[10px]" style="color:var(--tool-muted)">Have an account?
+      <a href="#" class="font-bold" style="color:var(--tool-primary)">Sign in</a></span>
+  </div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+function setErr(el,msg){const p=el.parentElement.querySelector('.err-msg');el.classList.add('err');if(p){p.textContent=msg;p.classList.remove('hidden');}}
+function clr(el){const p=el.parentElement.querySelector('.err-msg');el.classList.remove('err');if(p)p.classList.add('hidden');}
+$('frm').addEventListener('submit',e=>{
+  e.preventDefault();let ok=true;
+  ['name','email','pw','pw2'].forEach(i=>clr($(i)));
+  $('terms-err').classList.add('hidden');
+  if($('name').value.trim().length<3){setErr($('name'),'Full name required');ok=false;}
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test($('email').value)){setErr($('email'),'Enter a valid email');ok=false;}
+  if($('pw').value.length<6){setErr($('pw'),'Min 6 characters');ok=false;}
+  if($('pw2').value!==$('pw').value||!$('pw2').value){setErr($('pw2'),'Does not match');ok=false;}
+  if(!$('terms').checked){$('terms-err').textContent='Accept the terms';$('terms-err').classList.remove('hidden');ok=false;}
+  if(ok){$('toast').classList.remove('hidden');$('toast').classList.add('flex');}
+});
+</script>
+</body>
+</html>

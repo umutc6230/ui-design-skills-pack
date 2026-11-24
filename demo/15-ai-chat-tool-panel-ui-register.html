@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up - AI Chat + Tool Panel UI</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{
+  --ai-bg:#f8fafc;--ai-surface:#ffffff;--ai-panel:#f1f5f9;--ai-assistant:#eef2ff;--ai-border:#e2e8f0;
+  --ai-text:#0f172a;--ai-muted:#64748b;--ai-primary:#4f46e5;
+  --ai-success:#10b981;--ai-warning:#f59e0b;--ai-danger:#ef4444;--ai-radius:14px;--ai-gap:14px;
+}
+*{font-family:'Inter','Segoe UI',system-ui;}
+.mono{font-family:'JetBrains Mono',monospace;}
+body{background:var(--ai-bg);color:var(--ai-text);}
+.a-input{border:1px solid var(--ai-border);background:var(--ai-surface);color:var(--ai-text);}
+.a-input:focus{outline:none;border-color:var(--ai-primary);box-shadow:0 0 0 3px rgba(79,70,229,.15);}
+.a-input.err{border-color:var(--ai-danger);box-shadow:0 0 0 3px rgba(239,68,68,.15);}
+@keyframes blink{50%{opacity:0}}
+.cursor{display:inline-block;width:7px;height:14px;background:var(--ai-primary);animation:blink 1s steps(1) infinite;vertical-align:middle;border-radius:1px;}
+</style>
+</head>
+<body class="h-screen flex flex-col overflow-hidden">
+  <div class="flex flex-1 overflow-hidden">
+    <!-- Chat area -->
+    <section class="flex-1 flex flex-col" style="background:var(--ai-surface)">
+      <!-- Chat header -->
+      <header class="flex items-center gap-3 px-5 h-14" style="border-bottom:1px solid var(--ai-border)">
+        <span class="w-8 h-8 rounded-[10px] flex items-center justify-center text-white" style="background:var(--ai-primary)"><i class="fa-solid fa-robot"></i></span>
+        <div><div class="text-[14px] font-bold">Sign-Up Assistant</div><div class="text-[11px]" style="color:var(--ai-muted)">Helps you create a new account</div></div>
+        <span class="ml-auto inline-flex items-center gap-1.5 text-[10px] font-semibold px-2.5 py-1 rounded-full" style="background:rgba(16,185,129,.12);color:var(--ai-success)"><span class="w-1.5 h-1.5 rounded-full" style="background:var(--ai-success)"></span> Ready</span>
+        <button class="text-[12px] font-semibold px-3 py-1.5 rounded-[10px]" style="border:1px solid var(--ai-border);color:var(--ai-muted)"><i class="fa-solid fa-plus"></i> New</button>
+      </header>
+
+      <!-- Chat stream -->
+      <div class="flex-1 overflow-y-auto p-5 space-y-4">
+        <!-- assistant -->
+        <div class="flex gap-3 max-w-2xl">
+          <span class="w-7 h-7 rounded-lg flex items-center justify-center text-white shrink-0 text-[12px]" style="background:var(--ai-primary)"><i class="fa-solid fa-robot"></i></span>
+          <div class="rounded-[16px] px-4 py-3 text-[14px] leading-relaxed" style="background:var(--ai-assistant)">
+            Hello! I have prepared the form on the right to sign you up. Enter your name, email and password, then click <strong>Sign Up</strong>.
+            <span class="block text-[11px] mt-1" style="color:var(--ai-muted)">09:24</span>
+          </div>
+        </div>
+        <!-- user -->
+        <div class="flex gap-3 max-w-2xl ml-auto flex-row-reverse">
+          <span class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 text-[12px]" style="background:var(--ai-panel);color:var(--ai-muted)"><i class="fa-solid fa-user"></i></span>
+          <div class="rounded-[16px] px-4 py-3 text-[14px] leading-relaxed" style="background:var(--ai-panel)">
+            How strong should my password be?
+            <span class="block text-[11px] mt-1" style="color:var(--ai-muted)">09:25</span>
+          </div>
+        </div>
+        <!-- tool call card -->
+        <div class="flex gap-3 max-w-2xl">
+          <span class="w-7 h-7 rounded-lg flex items-center justify-center text-white shrink-0 text-[12px]" style="background:var(--ai-primary)"><i class="fa-solid fa-robot"></i></span>
+          <div class="space-y-2 w-full">
+            <div class="rounded-[12px] p-3 text-[12px]" style="background:var(--ai-surface);border:1px solid var(--ai-border)">
+              <div class="flex items-center gap-2 mb-1.5 font-semibold" style="color:var(--ai-warning)"><i class="fa-solid fa-circle-notch fa-spin"></i> Tool running: <span class="mono">validate_password()</span></div>
+              <div class="mono text-[11px]" style="color:var(--ai-muted)">→ min 6 characters, upper/lowercase recommended</div>
+            </div>
+            <div class="rounded-[16px] px-4 py-3 text-[14px] leading-relaxed" style="background:var(--ai-assistant)">
+              It must be at least 6 characters. For security, I recommend a mix of letters and numbers.<span class="cursor"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Composer -->
+      <div class="sticky bottom-0 p-4" style="border-top:1px solid var(--ai-border);background:var(--ai-surface)">
+        <div class="flex items-end gap-2 rounded-[16px] p-2" style="border:1px solid var(--ai-border)">
+          <button class="w-9 h-9 rounded-lg flex items-center justify-center" style="color:var(--ai-muted)"><i class="fa-solid fa-paperclip"></i></button>
+          <textarea rows="1" placeholder="Type a message... (Enter to send)" class="flex-1 resize-none outline-none text-[14px] py-2 bg-transparent"></textarea>
+          <button class="w-9 h-9 rounded-lg flex items-center justify-center text-white" style="background:var(--ai-primary)"><i class="fa-solid fa-paper-plane text-[13px]"></i></button>
+        </div>
+        <div class="flex items-center gap-3 mt-2 text-[10px]" style="color:var(--ai-muted)"><span><i class="fa-solid fa-coins"></i> 412 / 8000 tokens</span><span class="mono">Shift+Enter = new line</span></div>
+      </div>
+    </section>
+
+    <!-- Tool panel = register form -->
+    <aside class="w-[380px] flex flex-col shrink-0" style="background:var(--ai-panel);border-left:1px solid var(--ai-border)">
+      <div class="px-5 h-14 flex items-center" style="border-bottom:1px solid var(--ai-border)">
+        <i class="fa-solid fa-sliders text-[14px]" style="color:var(--ai-primary)"></i>
+        <span class="ml-2 text-[13px] font-bold">Sign-Up Panel</span>
+        <span class="ml-auto text-[11px] font-semibold px-2 py-1 rounded-full" style="background:var(--ai-assistant);color:var(--ai-primary)">Form</span>
+      </div>
+
+      <form id="frm" novalidate class="flex-1 overflow-y-auto p-5 space-y-4">
+        <div class="rounded-[12px] p-3" style="background:var(--ai-surface);border:1px solid var(--ai-border)">
+          <label class="block text-[11px] font-semibold mb-1.5" style="color:var(--ai-muted)">FULL NAME</label>
+          <input id="name" class="a-input w-full rounded-[10px] px-3 py-2 text-[13px]" placeholder="Full name">
+          <p class="err-msg hidden text-[11px] mt-1" style="color:var(--ai-danger)"></p>
+        </div>
+        <div class="rounded-[12px] p-3" style="background:var(--ai-surface);border:1px solid var(--ai-border)">
+          <label class="block text-[11px] font-semibold mb-1.5" style="color:var(--ai-muted)">EMAIL</label>
+          <input id="email" class="a-input mono w-full rounded-[10px] px-3 py-2 text-[13px]" placeholder="name@example.com">
+          <p class="err-msg hidden text-[11px] mt-1" style="color:var(--ai-danger)"></p>
+        </div>
+        <div class="rounded-[12px] p-3" style="background:var(--ai-surface);border:1px solid var(--ai-border)">
+          <label class="block text-[11px] font-semibold mb-1.5" style="color:var(--ai-muted)">PASSWORD</label>
+          <input id="pw" type="password" class="a-input w-full rounded-[10px] px-3 py-2 text-[13px]" placeholder="••••••••">
+          <p class="err-msg hidden text-[11px] mt-1" style="color:var(--ai-danger)"></p>
+        </div>
+        <div class="rounded-[12px] p-3" style="background:var(--ai-surface);border:1px solid var(--ai-border)">
+          <label class="block text-[11px] font-semibold mb-1.5" style="color:var(--ai-muted)">CONFIRM PASSWORD</label>
+          <input id="pw2" type="password" class="a-input w-full rounded-[10px] px-3 py-2 text-[13px]" placeholder="••••••••">
+          <p class="err-msg hidden text-[11px] mt-1" style="color:var(--ai-danger)"></p>
+        </div>
+        <label class="flex items-start gap-2 cursor-pointer px-1">
+          <input id="terms" type="checkbox" class="mt-0.5 w-4 h-4 rounded" style="accent-color:var(--ai-primary)">
+          <span class="text-[12px]" style="color:var(--ai-muted)">I accept the <span class="font-semibold" style="color:var(--ai-text)">Terms of Use</span></span>
+        </label>
+        <p id="terms-err" class="err-msg hidden text-[11px] px-1" style="color:var(--ai-danger)"></p>
+
+        <div id="ok" class="hidden rounded-[12px] p-3 text-[12px] font-semibold" style="background:rgba(16,185,129,.1);color:var(--ai-success)"><i class="fa-solid fa-circle-check"></i> Your account has been created!</div>
+      </form>
+
+      <div class="p-4 space-y-2" style="border-top:1px solid var(--ai-border)">
+        <button type="submit" form="frm" class="w-full h-10 rounded-[12px] text-white text-[13px] font-bold flex items-center justify-center gap-2" style="background:var(--ai-primary)"><i class="fa-solid fa-user-plus"></i> Sign Up</button>
+        <div class="text-center text-[12px]" style="color:var(--ai-muted)">Have an account? <a href="#" class="font-bold" style="color:var(--ai-primary)">Sign in</a></div>
+      </div>
+    </aside>
+  </div>
+
+<script>
+const $=id=>document.getElementById(id);
+function setErr(el,msg){const p=el.parentElement.querySelector('.err-msg');el.classList.add('err');if(p){p.textContent=msg;p.classList.remove('hidden');}}
+function clr(el){const p=el.parentElement.querySelector('.err-msg');el.classList.remove('err');if(p)p.classList.add('hidden');}
+$('frm').addEventListener('submit',e=>{
+  e.preventDefault();let ok=true;
+  ['name','email','pw','pw2'].forEach(i=>clr($(i)));$('terms-err').classList.add('hidden');$('ok').classList.add('hidden');
+  if($('name').value.trim().length<3){setErr($('name'),'Full name required');ok=false;}
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test($('email').value)){setErr($('email'),'Enter a valid email');ok=false;}
+  if($('pw').value.length<6){setErr($('pw'),'Min 6 characters');ok=false;}
+  if($('pw2').value!==$('pw').value||!$('pw2').value){setErr($('pw2'),'Passwords do not match');ok=false;}
+  if(!$('terms').checked){$('terms-err').textContent='Accept the terms';$('terms-err').classList.remove('hidden');ok=false;}
+  if(ok)$('ok').classList.remove('hidden');
+});
+</script>
+</body>
+</html>

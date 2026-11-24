@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIGN UP // CYBERPUNK HUD</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cy-bg:#000000;--cy-panel:#020617;--cy-border:#0e7490;--cy-neon:#22d3ee;
+    --cy-purple:#a855f7;--cy-danger:#f43f5e;--cy-warning:#facc15;--cy-text:#d1fae5;--cy-muted:#0891b2;
+    --cy-glow:0 0 18px rgba(34,211,238,.35);
+  }
+  body{background:var(--cy-bg);color:var(--cy-text);font-family:'JetBrains Mono',monospace;}
+  .clip{clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px));}
+  .panel{background:var(--cy-panel);border:1px solid var(--cy-border);box-shadow:var(--cy-glow);}
+  .neon{color:var(--cy-neon);}
+  .lbl{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--cy-muted);}
+  .field{background:#01030a;border:1px solid var(--cy-border);color:var(--cy-neon);padding:9px 12px;outline:none;width:100%;font-family:'JetBrains Mono',monospace;font-size:13px;}
+  .field:focus{border-color:var(--cy-neon);box-shadow:0 0 0 1px var(--cy-neon),var(--cy-glow);}
+  .field.err{border-color:var(--cy-danger);box-shadow:0 0 14px rgba(244,63,94,.4);}
+  .errtext{color:var(--cy-danger);font-size:10px;letter-spacing:.1em;text-transform:uppercase;}
+  .scan{background:repeating-linear-gradient(0deg,rgba(34,211,238,.04) 0 2px,transparent 2px 4px);}
+  .head-font{font-family:'Rajdhani',sans-serif;}
+  @keyframes blink{50%{opacity:.3}} .blink{animation:blink 1.4s steps(2) infinite;}
+  .btn-exec{background:linear-gradient(90deg,#0e7490,#22d3ee);color:#001014;}
+  .btn-exec:hover{box-shadow:0 0 26px rgba(34,211,238,.7);}
+</style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 scan">
+<div class="w-full max-w-lg panel clip relative">
+  <div class="absolute inset-0 scan pointer-events-none opacity-40"></div>
+  <!-- HUD header -->
+  <div class="flex items-center justify-between px-5 py-3 border-b" style="border-color:var(--cy-border);">
+    <div class="flex items-center gap-2 head-font font-bold text-xl neon tracking-widest">
+      <i class="fa-solid fa-shield-halved"></i> NEXUS // NEW OPERATOR
+    </div>
+    <div class="flex items-center gap-2 text-[10px]">
+      <span class="px-2 py-0.5 border" style="border-color:var(--cy-danger);color:var(--cy-danger);">THREAT: LOW</span>
+      <span class="blink" style="color:var(--cy-warning);">● LIVE</span>
+    </div>
+  </div>
+
+  <!-- Telemetry strip -->
+  <div class="grid grid-cols-3 gap-px text-center text-[10px]" style="background:var(--cy-border);">
+    <div class="py-2" style="background:var(--cy-panel);"><div class="lbl">NODE</div><div class="neon">TR-07</div></div>
+    <div class="py-2" style="background:var(--cy-panel);"><div class="lbl">SIGNAL</div><div style="color:var(--cy-warning);">98%</div></div>
+    <div class="py-2" style="background:var(--cy-panel);"><div class="lbl">ENCRYPT</div><div style="color:var(--cy-purple);">AES-512</div></div>
+  </div>
+
+  <form id="frm" class="p-5 space-y-4 relative" novalidate>
+    <div>
+      <label class="lbl block mb-1" for="ad">>> Operator Full Name</label>
+      <input id="ad" class="field" type="text" placeholder="full_name">
+      <div class="errtext mt-1 hidden" data-e="ad"></div>
+    </div>
+    <div>
+      <label class="lbl block mb-1" for="email">>> Contact Channel / Email</label>
+      <input id="email" class="field" type="text" placeholder="user@nexus.net">
+      <div class="errtext mt-1 hidden" data-e="email"></div>
+    </div>
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <label class="lbl block mb-1" for="pw">>> Access Code</label>
+        <input id="pw" class="field" type="password" placeholder="••••••">
+        <div class="errtext mt-1 hidden" data-e="pw"></div>
+      </div>
+      <div>
+        <label class="lbl block mb-1" for="pw2">>> Confirm Code</label>
+        <input id="pw2" class="field" type="password" placeholder="••••••">
+        <div class="errtext mt-1 hidden" data-e="pw2"></div>
+      </div>
+    </div>
+
+    <label class="flex items-start gap-3 cursor-pointer text-xs">
+      <input id="terms" type="checkbox" class="mt-0.5 w-4 h-4 accent-cyan-400">
+      <span>[ ! ] I accept the <span class="neon">operator protocols</span> and data encryption terms.</span>
+    </label>
+    <div class="errtext hidden" data-e="terms"></div>
+
+    <!-- Event log -->
+    <div class="border px-3 py-2 text-[11px]" style="border-color:var(--cy-border);background:#01030a;">
+      <div class="lbl mb-1">// EVENT LOG</div>
+      <div id="log" style="color:var(--cy-muted);">> Sign-up module ready. Awaiting data...</div>
+    </div>
+
+    <!-- Alarm footer -->
+    <div class="flex gap-3 pt-1">
+      <button type="reset" class="flex-1 clip border py-3 text-xs tracking-widest uppercase" style="border-color:var(--cy-danger);color:var(--cy-danger);">
+        <i class="fa-solid fa-ban"></i> Cancel
+      </button>
+      <button type="submit" class="flex-[2] clip btn-exec py-3 text-xs font-extrabold tracking-widest uppercase">
+        <i class="fa-solid fa-bolt"></i> Register Operator
+      </button>
+    </div>
+    <div class="text-center text-[11px]" style="color:var(--cy-muted);">
+      Existing operator? <a href="#" class="neon underline">System Login</a>
+    </div>
+  </form>
+</div>
+
+<script>
+const f=document.getElementById('frm'),log=document.getElementById('log');
+const show=(k,m)=>{const e=document.querySelector(`[data-e="${k}"]`);e.textContent='✕ '+m;e.classList.remove('hidden');const i=document.getElementById(k);if(i)i.classList.add('err');};
+const clr=()=>{document.querySelectorAll('.errtext').forEach(e=>e.classList.add('hidden'));document.querySelectorAll('.field').forEach(e=>e.classList.remove('err'));};
+let armed=false;
+f.addEventListener('submit',ev=>{
+  ev.preventDefault();clr();let ok=true;
+  const ad=document.getElementById('ad').value.trim(),em=document.getElementById('email').value.trim();
+  const pw=document.getElementById('pw').value,pw2=document.getElementById('pw2').value;
+  if(!ad){show('ad','Operator name required');ok=false;}
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){show('email','Invalid channel address');ok=false;}
+  if(pw.length<6){show('pw','Min 6 characters');ok=false;}
+  if(pw2!==pw||!pw2){show('pw2','Codes do not match');ok=false;}
+  if(!document.getElementById('terms').checked){show('terms','Protocol approval required');ok=false;}
+  if(!ok){log.style.color='#f43f5e';log.textContent='> ERROR: Validation failed. Check the fields.';armed=false;return;}
+  if(!armed){armed=true;log.style.color='#facc15';log.textContent='> [WARNING] Registration is about to be confirmed. Press again to EXECUTE.';return;}
+  log.style.color='#22d3ee';log.textContent='> SUCCESS: Operator registered. System access granted.';armed=false;
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up - Neumorphism</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{
+  --bg:#EEF2F7; --surface:#EEF2F7; --light:#FFFFFF; --dark-shadow:#B9C7D9;
+  --muted:#6C7A89; --text:#1F2937; --radius:22px;
+  --shadow:8px 8px 18px #B9C7D9,-8px -8px 18px #FFFFFF;
+}
+*{font-family:'Inter','Segoe UI',sans-serif;}
+body{background:var(--bg);color:var(--text);}
+.soft{box-shadow:var(--shadow);border-radius:var(--radius);background:var(--surface);}
+.soft-inset{box-shadow:inset 6px 6px 12px #B9C7D9,inset -6px -6px 12px #FFFFFF;background:var(--surface);}
+.nav-item{box-shadow:5px 5px 10px #B9C7D9,-5px -5px 10px #FFFFFF;transition:all .2s ease-out;}
+.nav-item:hover{transform:translateY(-1px);}
+.nav-item.active{box-shadow:inset 4px 4px 9px #B9C7D9,inset -4px -4px 9px #FFFFFF;color:#1F2937;}
+.field{transition:box-shadow .2s ease-out;}
+.field:focus-within{box-shadow:inset 6px 6px 12px #B9C7D9,inset -6px -6px 12px #FFFFFF;outline:2px solid #6C7A89;outline-offset:3px;border-radius:16px;}
+.field input{background:transparent;outline:none;}
+.cta{box-shadow:6px 6px 14px #B9C7D9,-6px -6px 14px #FFFFFF;transition:all .18s ease-out;}
+.cta:hover{transform:translateY(-1px);box-shadow:8px 8px 18px #B9C7D9,-8px -8px 18px #FFFFFF;}
+.cta:active{transform:scale(.98);box-shadow:inset 4px 4px 10px #B9C7D9,inset -4px -4px 10px #FFFFFF;}
+.cta:focus-visible{outline:2px solid #1F2937;outline-offset:3px;}
+.cta:disabled{opacity:.55;box-shadow:inset 3px 3px 7px #B9C7D9,inset -3px -3px 7px #FFFFFF;cursor:not-allowed;transform:none;}
+.err{box-shadow:inset 4px 4px 10px #d9b9b9,inset -4px -4px 10px #FFFFFF;border-radius:16px;}
+.chk{box-shadow:inset 3px 3px 6px #B9C7D9,inset -3px -3px 6px #FFFFFF;}
+.chk.on{box-shadow:5px 5px 10px #B9C7D9,-5px -5px 10px #FFFFFF;color:#1F2937;}
+</style>
+</head>
+<body class="min-h-screen p-6">
+<div class="max-w-[1200px] mx-auto soft p-2">
+  <!-- window top bar -->
+  <div class="flex items-center justify-between px-6 py-4">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 grid place-items-center soft" style="border-radius:14px"><i class="fa-solid fa-feather text-[#6C7A89]"></i></div>
+      <span class="font-semibold">Soft Studio</span>
+    </div>
+    <div class="flex gap-2">
+      <span class="w-9 h-9 grid place-items-center nav-item rounded-full text-[#6C7A89]"><i class="fa-solid fa-minus text-xs"></i></span>
+      <span class="w-9 h-9 grid place-items-center nav-item rounded-full text-[#6C7A89]"><i class="fa-regular fa-square text-xs"></i></span>
+      <span class="w-9 h-9 grid place-items-center nav-item rounded-full text-[#6C7A89]"><i class="fa-solid fa-xmark text-xs"></i></span>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-[230px_1fr] gap-7 p-5">
+    <!-- sidebar -->
+    <aside class="flex flex-col gap-4">
+      <div class="soft p-5">
+        <p class="text-[12px] text-[#6C7A89] mb-3 font-medium">MENU</p>
+        <nav class="flex flex-col gap-3 text-[14px] text-[#6C7A89]">
+          <a class="nav-item active rounded-2xl px-4 py-3 flex items-center gap-3"><i class="fa-solid fa-user-plus w-4"></i> Sign Up</a>
+          <a class="nav-item rounded-2xl px-4 py-3 flex items-center gap-3"><i class="fa-solid fa-right-to-bracket w-4"></i> Log in</a>
+          <a class="nav-item rounded-2xl px-4 py-3 flex items-center gap-3"><i class="fa-solid fa-circle-question w-4"></i> Help</a>
+        </nav>
+      </div>
+      <div class="soft p-5 text-[13px] text-[#6C7A89] leading-relaxed">
+        <p class="font-semibold text-[#1F2937] mb-1">Calm experience</p>
+        A soft, tactile interface for your personal tools.
+      </div>
+    </aside>
+
+    <!-- content -->
+    <main class="soft p-9">
+      <h1 class="text-[30px] font-bold mb-1">Create account</h1>
+      <p class="text-[#6C7A89] text-[15px] mb-8">Set up your Soft Studio account in a few steps.</p>
+
+      <form id="form" novalidate class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div class="sm:col-span-2">
+          <label class="block text-[13px] font-medium text-[#6C7A89] mb-2">Full name</label>
+          <div class="field soft-inset rounded-2xl px-4 py-3 flex items-center gap-3" data-wrap>
+            <i class="fa-solid fa-user text-[#B9C7D9]"></i>
+            <input id="name" type="text" placeholder="Full name" class="w-full text-[15px]">
+          </div>
+          <p class="msg text-[12px] text-[#b45252] mt-1 hidden">Please enter your full name.</p>
+        </div>
+
+        <div class="sm:col-span-2">
+          <label class="block text-[13px] font-medium text-[#6C7A89] mb-2">Email</label>
+          <div class="field soft-inset rounded-2xl px-4 py-3 flex items-center gap-3" data-wrap>
+            <i class="fa-solid fa-envelope text-[#B9C7D9]"></i>
+            <input id="email" type="email" placeholder="example@mail.com" class="w-full text-[15px]">
+          </div>
+          <p class="msg text-[12px] text-[#b45252] mt-1 hidden">Enter a valid email.</p>
+        </div>
+
+        <div>
+          <label class="block text-[13px] font-medium text-[#6C7A89] mb-2">Password</label>
+          <div class="field soft-inset rounded-2xl px-4 py-3 flex items-center gap-3" data-wrap>
+            <i class="fa-solid fa-lock text-[#B9C7D9]"></i>
+            <input id="pass" type="password" placeholder="••••••••" class="w-full text-[15px]">
+          </div>
+          <p class="msg text-[12px] text-[#b45252] mt-1 hidden">At least 6 characters.</p>
+        </div>
+
+        <div>
+          <label class="block text-[13px] font-medium text-[#6C7A89] mb-2">Confirm password</label>
+          <div class="field soft-inset rounded-2xl px-4 py-3 flex items-center gap-3" data-wrap>
+            <i class="fa-solid fa-lock text-[#B9C7D9]"></i>
+            <input id="pass2" type="password" placeholder="••••••••" class="w-full text-[15px]">
+          </div>
+          <p class="msg text-[12px] text-[#b45252] mt-1 hidden">Passwords do not match.</p>
+        </div>
+
+        <div class="sm:col-span-2">
+          <label class="flex items-center gap-3 cursor-pointer select-none">
+            <span id="chk" class="chk w-7 h-7 rounded-xl grid place-items-center text-transparent transition-all"><i class="fa-solid fa-check text-xs"></i></span>
+            <input id="terms" type="checkbox" class="hidden">
+            <span class="text-[14px] text-[#6C7A89]">I accept the <span class="text-[#1F2937] font-medium">terms of use</span> and privacy policy.</span>
+          </label>
+          <p class="msg text-[12px] text-[#b45252] mt-1 hidden">You must accept the terms.</p>
+        </div>
+
+        <div class="sm:col-span-2 mt-2">
+          <button id="submit" type="submit" class="cta w-full py-4 rounded-2xl font-semibold text-[#1F2937]">
+            <i class="fa-solid fa-user-plus mr-2"></i> Sign Up
+          </button>
+          <p id="ok" class="hidden mt-4 text-center text-[14px] soft-inset rounded-xl py-3 text-[#1F7a4a]">Your account has been created, welcome!</p>
+        </div>
+
+        <p class="sm:col-span-2 text-center text-[14px] text-[#6C7A89]">
+          Already have an account? <a href="#" class="text-[#1F2937] font-semibold underline-offset-2 hover:underline">Log in</a>
+        </p>
+      </form>
+    </main>
+  </div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+let agreed=false;
+const chk=$('chk'),terms=$('terms');
+function toggle(){agreed=!agreed;terms.checked=agreed;chk.classList.toggle('on',agreed);chk.classList.toggle('text-[#1F2937]',agreed);}
+chk.parentElement.addEventListener('click',e=>{e.preventDefault();toggle();});
+function setErr(input,on,msg){const wrap=input.closest('[data-wrap]')||input;const p=(wrap.parentElement).querySelector('.msg');if(wrap.classList)wrap.classList.toggle('err',on);if(p)p.classList.toggle('hidden',!on);}
+$('form').addEventListener('submit',e=>{
+  e.preventDefault();let ok=true;
+  const n=$('name'),em=$('email'),p=$('pass'),p2=$('pass2');
+  if(!n.value.trim()){setErr(n,true);ok=false;}else setErr(n,false);
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em.value)){setErr(em,true);ok=false;}else setErr(em,false);
+  if(p.value.length<6){setErr(p,true);ok=false;}else setErr(p,false);
+  if(p2.value!==p.value||!p2.value){setErr(p2,true);ok=false;}else setErr(p2,false);
+  const tw=document.querySelector('#terms').closest('label').parentElement.querySelector('.msg');
+  if(!agreed){tw.classList.remove('hidden');ok=false;}else tw.classList.add('hidden');
+  if(ok){$('ok').classList.remove('hidden');}
+});
+</script>
+</body>
+</html>

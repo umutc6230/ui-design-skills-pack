@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up - Classic Windows Form</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --classic-bg:#d4d0c8; --classic-surface:#c0c0c0; --classic-highlight:#ffffff;
+    --classic-shadow:#808080; --classic-dark:#404040; --classic-title:#000080;
+    --classic-text:#000000; --classic-info:#ffffe1; --classic-danger:#ff0000;
+  }
+  body{background:#008080;font-family:'MS Sans Serif',Tahoma,'Microsoft Sans Serif','Segoe UI',sans-serif;font-size:12px;color:var(--classic-text);}
+  .win{background:var(--classic-surface);border:2px solid;border-color:var(--classic-highlight) var(--classic-dark) var(--classic-dark) var(--classic-highlight);}
+  .inset{border:2px solid;border-color:var(--classic-shadow) var(--classic-highlight) var(--classic-highlight) var(--classic-shadow);}
+  .outset{border:2px solid;border-color:var(--classic-highlight) var(--classic-shadow) var(--classic-shadow) var(--classic-highlight);}
+  .outset:active{border-color:var(--classic-shadow) var(--classic-highlight) var(--classic-highlight) var(--classic-shadow);}
+  .field{background:#fff;border:2px solid;border-color:var(--classic-shadow) var(--classic-highlight) var(--classic-highlight) var(--classic-shadow);padding:3px 4px;outline:none;font-size:12px;}
+  .field.err{border-color:var(--classic-danger);}
+  .gb{border:1px solid var(--classic-shadow);box-shadow:inset 1px 1px 0 var(--classic-highlight);position:relative;padding:14px 10px 10px;margin-top:8px;}
+  .gb > legend{position:absolute;top:-8px;left:8px;background:var(--classic-surface);padding:0 4px;font-weight:700;}
+  .tbtn{background:var(--classic-surface);width:16px;height:14px;font-size:9px;line-height:1;display:flex;align-items:center;justify-content:center;}
+  .errtext{color:var(--classic-danger);font-size:11px;}
+  .chk{width:13px;height:13px;background:#fff;}
+</style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+<div class="win w-full max-w-md">
+  <!-- Title bar -->
+  <div class="flex items-center justify-between px-1 py-0.5" style="background:var(--classic-title);">
+    <div class="flex items-center gap-1 text-white font-bold px-1"><i class="fa-regular fa-id-card"></i><span>System Registration - New User</span></div>
+    <div class="flex gap-0.5">
+      <div class="tbtn outset"><i class="fa-solid fa-window-minimize"></i></div>
+      <div class="tbtn outset"><i class="fa-regular fa-square"></i></div>
+      <div class="tbtn outset"><i class="fa-solid fa-xmark"></i></div>
+    </div>
+  </div>
+  <!-- Menu strip -->
+  <div class="flex gap-3 px-2 py-0.5 border-b" style="border-color:var(--classic-shadow);">
+    <span><u>F</u>ile</span><span><u>E</u>dit</span><span><u>V</u>iew</span><span><u>H</u>elp</span>
+  </div>
+
+  <form id="frm" class="p-3" novalidate>
+    <fieldset class="gb">
+      <legend>Account Details</legend>
+      <div class="grid grid-cols-[110px_1fr] gap-x-2 gap-y-2 items-center">
+        <label for="ad">Full name:</label>
+        <div><input id="ad" class="field w-full" type="text"><div class="errtext hidden" data-e="ad"></div></div>
+        <label for="email">Email:</label>
+        <div><input id="email" class="field w-full" type="text"><div class="errtext hidden" data-e="email"></div></div>
+        <label for="pw">Password:</label>
+        <div><input id="pw" class="field w-full" type="password"><div class="errtext hidden" data-e="pw"></div></div>
+        <label for="pw2">Confirm password:</label>
+        <div><input id="pw2" class="field w-full" type="password"><div class="errtext hidden" data-e="pw2"></div></div>
+      </div>
+    </fieldset>
+
+    <fieldset class="gb mt-4">
+      <legend>Agreement</legend>
+      <label class="flex items-start gap-2 cursor-pointer">
+        <input id="terms" type="checkbox" class="chk inset mt-0.5">
+        <span>I have <u>read and accept</u> the terms of use and privacy agreement.</span>
+      </label>
+      <div class="errtext hidden mt-1" data-e="terms"></div>
+    </fieldset>
+
+    <!-- Info panel -->
+    <div class="inset mt-3 px-2 py-1 flex items-center gap-2" style="background:var(--classic-info);">
+      <i class="fa-solid fa-circle-info" style="color:var(--classic-title);"></i>
+      <span id="info">Please fill in all fields. Enter = Sign Up, Esc = Cancel.</span>
+    </div>
+
+    <!-- Button row -->
+    <div class="flex justify-end gap-2 mt-3">
+      <button type="submit" class="outset px-4 py-1 font-bold">Sign Up</button>
+      <button type="reset" class="outset px-4 py-1">Cancel</button>
+    </div>
+    <div class="text-center mt-2">
+      Already have an account? <a href="#" class="text-blue-900 underline" style="color:var(--classic-title);">Sign In</a>
+    </div>
+  </form>
+
+  <!-- Status bar -->
+  <div class="flex gap-1 px-1 py-0.5 border-t" style="border-color:var(--classic-highlight);">
+    <div class="inset flex-1 px-2 py-0.5" id="status">Ready</div>
+    <div class="inset px-2 py-0.5">Progress: 0/4</div>
+    <div class="inset px-2 py-0.5"><i class="fa-solid fa-network-wired"></i></div>
+  </div>
+</div>
+
+<script>
+const f=document.getElementById('frm');
+const show=(k,m)=>{const e=document.querySelector(`[data-e="${k}"]`);e.textContent=m;e.classList.remove('hidden');const i=document.getElementById(k);if(i)i.classList.add('err');};
+const clr=()=>{document.querySelectorAll('.errtext').forEach(e=>e.classList.add('hidden'));document.querySelectorAll('.field').forEach(e=>e.classList.remove('err'));};
+f.addEventListener('submit',ev=>{
+  ev.preventDefault();clr();let ok=true,n=0;
+  const ad=ad_.value.trim(),em=email.value.trim(),pw=document.getElementById('pw').value,pw2=document.getElementById('pw2').value;
+  function chk(c,k,m){if(c){show(k,m);ok=false;}else n++;}
+  chk(!ad,'ad','Full name cannot be empty.');
+  chk(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em),'email','Enter a valid email address.');
+  chk(pw.length<6,'pw','Password must be at least 6 characters.');
+  chk(pw2!==pw||!pw2,'pw2','Passwords do not match.');
+  if(!document.getElementById('terms').checked){show('terms','You must accept the agreement.');ok=false;}
+  document.getElementById('status').textContent=ok?'Registration completed successfully.':'Error: check the fields.';
+  document.getElementById('info').textContent=ok?'Your account has been created. You can now sign in.':'Some fields are invalid or missing.';
+});
+const ad_=document.getElementById('ad');
+document.addEventListener('keydown',e=>{if(e.key==='Escape')f.reset();});
+</script>
+</body>
+</html>

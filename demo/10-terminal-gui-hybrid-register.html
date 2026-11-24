@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up - Terminal + GUI Hybrid</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{
+  --bg:#0B1220; --surface:#111827; --panel:#1F2937; --success:#22C55E;
+  --cyan:#38BDF8; --text:#E5E7EB; --radius:16px; --shadow:0 18px 48px rgba(0,0,0,.38);
+}
+*{font-family:'Inter','Segoe UI',sans-serif;}
+.mono{font-family:'JetBrains Mono','SF Mono',monospace;}
+body{background:var(--bg);color:var(--text);}
+.surface{background:var(--surface);border:1px solid #243042;border-radius:var(--radius);box-shadow:var(--shadow);}
+.panel{background:var(--panel);border:1px solid #2b3a4f;border-radius:14px;}
+.log{font-family:'JetBrains Mono',monospace;background:#050A14;color:#CFFFE0;}
+.log-line.error{color:#F87171;}
+.log-line.warn{color:#FBBF24;}
+.nav:hover{background:#1b2738;}
+.nav.active{background:#16263a;color:#38BDF8;border-left:3px solid #38BDF8;}
+.fin{background:#0c1626;border:1px solid #2b3a4f;border-radius:10px;transition:.15s;}
+.fin:focus-within{border-color:#38BDF8;box-shadow:0 0 0 2px rgba(56,189,248,.25);}
+.fin.err{border-color:#F87171;box-shadow:0 0 0 2px rgba(248,113,113,.2);}
+.fin input{outline:none;background:transparent;color:#E5E7EB;}
+.fin input::placeholder{color:#5b6b80;}
+.btn{background:#22C55E;color:#05230f;transition:.15s;font-weight:600;}
+.btn:hover{background:#34d36b;}
+.btn:active{transform:scale(.985);}
+.btn:focus-visible{outline:2px solid #E5E7EB;outline-offset:2px;}
+.chip{border:1px solid #2b3a4f;border-radius:999px;}
+</style>
+</head>
+<body class="min-h-screen flex">
+  <!-- sidebar -->
+  <aside class="w-[210px] shrink-0 bg-[#0c1626] border-r border-[#1d2840] p-3 flex flex-col gap-1 hidden md:flex">
+    <div class="flex items-center gap-2 px-2 py-3 mb-2">
+      <div class="w-9 h-9 rounded-lg bg-[#16263a] grid place-items-center text-[#38BDF8]"><i class="fa-solid fa-terminal"></i></div>
+      <span class="font-semibold">opsctl</span>
+    </div>
+    <a class="nav active rounded-lg px-3 py-2.5 text-[14px] flex items-center gap-3"><i class="fa-solid fa-user-plus w-4"></i> Provision</a>
+    <a class="nav rounded-lg px-3 py-2.5 text-[14px] text-[#9aa7ba] flex items-center gap-3"><i class="fa-solid fa-server w-4"></i> Nodes</a>
+    <a class="nav rounded-lg px-3 py-2.5 text-[14px] text-[#9aa7ba] flex items-center gap-3"><i class="fa-solid fa-database w-4"></i> Storage</a>
+    <a class="nav rounded-lg px-3 py-2.5 text-[14px] text-[#9aa7ba] flex items-center gap-3"><i class="fa-solid fa-chart-line w-4"></i> Metrics</a>
+    <div class="mt-auto px-3 py-2 text-[11px] mono text-[#5b6b80]">v2.4.1 · stable</div>
+  </aside>
+
+  <main class="flex-1 flex flex-col min-w-0">
+    <!-- top metric cards -->
+    <header class="p-5 border-b border-[#1d2840]">
+      <div class="flex items-center gap-2 mb-4">
+        <h1 class="text-[20px] font-semibold">New Operator Registration</h1>
+        <span class="chip text-[11px] mono px-2 py-0.5 text-[#38BDF8]">env: production</span>
+        <span class="ml-auto text-[12px] mono text-[#9aa7ba]"><i class="fa-solid fa-folder-tree mr-1"></i>~/cluster/ops</span>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="panel p-3"><p class="text-[11px] uppercase text-[#7a8aa0]">CPU</p><p class="text-[20px] font-semibold mono text-[#38BDF8]">37%</p></div>
+        <div class="panel p-3"><p class="text-[11px] uppercase text-[#7a8aa0]">RAM</p><p class="text-[20px] font-semibold mono text-[#38BDF8]">6.2/16G</p></div>
+        <div class="panel p-3"><p class="text-[11px] uppercase text-[#7a8aa0]">Disk</p><p class="text-[20px] font-semibold mono text-[#22C55E]">128G</p></div>
+        <div class="panel p-3"><p class="text-[11px] uppercase text-[#7a8aa0]">Status</p><p class="text-[14px] font-semibold mono text-[#22C55E] mt-1"><i class="fa-solid fa-circle text-[8px] mr-1"></i>healthy</p></div>
+      </div>
+    </header>
+
+    <div class="flex-1 grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-5 p-5 min-h-0">
+      <!-- left: GUI register form -->
+      <section class="surface p-6 overflow-auto">
+        <h2 class="text-[16px] font-semibold mb-1">Create operator account</h2>
+        <p class="text-[13px] text-[#9aa7ba] mb-5">The registration command is mirrored to the terminal live.</p>
+        <form id="form" novalidate class="grid gap-4">
+          <div>
+            <label class="block text-[12px] mono text-[#9aa7ba] mb-1.5">--name</label>
+            <div class="fin flex items-center gap-2 px-3 h-11"><i class="fa-solid fa-user text-[#5b6b80] text-sm"></i><input id="name" class="text-[14px] w-full" placeholder="Full name"></div>
+            <p class="msg text-[12px] text-[#F87171] mt-1 hidden">Please enter your full name.</p>
+          </div>
+          <div>
+            <label class="block text-[12px] mono text-[#9aa7ba] mb-1.5">--email</label>
+            <div class="fin flex items-center gap-2 px-3 h-11"><i class="fa-solid fa-envelope text-[#5b6b80] text-sm"></i><input id="email" type="email" class="text-[14px] w-full" placeholder="ops@cluster.io"></div>
+            <p class="msg text-[12px] text-[#F87171] mt-1 hidden">Enter a valid email.</p>
+          </div>
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-[12px] mono text-[#9aa7ba] mb-1.5">--password</label>
+              <div class="fin flex items-center gap-2 px-3 h-11"><i class="fa-solid fa-key text-[#5b6b80] text-sm"></i><input id="pass" type="password" class="text-[14px] w-full" placeholder="••••••••"></div>
+              <p class="msg text-[12px] text-[#F87171] mt-1 hidden">At least 6 characters.</p>
+            </div>
+            <div>
+              <label class="block text-[12px] mono text-[#9aa7ba] mb-1.5">--confirm</label>
+              <div class="fin flex items-center gap-2 px-3 h-11"><i class="fa-solid fa-key text-[#5b6b80] text-sm"></i><input id="pass2" type="password" class="text-[14px] w-full" placeholder="••••••••"></div>
+              <p class="msg text-[12px] text-[#F87171] mt-1 hidden">Passwords do not match.</p>
+            </div>
+          </div>
+          <label class="flex items-start gap-2.5 cursor-pointer">
+            <input id="terms" type="checkbox" class="mt-0.5 w-4 h-4 accent-[#22C55E]">
+            <span class="text-[13px] text-[#9aa7ba]">I accept the terms of use and security policy.</span>
+          </label>
+          <p class="msg text-[12px] text-[#F87171] -mt-2 hidden">Accept to continue.</p>
+
+          <!-- command preview -->
+          <div class="panel mono text-[12px] p-3 flex items-center gap-2">
+            <span class="text-[#22C55E]">$</span>
+            <span id="preview" class="text-[#CFFFE0] truncate">opsctl user create --name "" --email "" --role operator</span>
+            <i class="fa-regular fa-copy ml-auto text-[#5b6b80] cursor-pointer hover:text-[#38BDF8]" title="Copy"></i>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <button id="submit" type="submit" class="btn text-[14px] px-6 h-11 rounded-lg"><i class="fa-solid fa-play mr-2"></i>Run Registration</button>
+            <a href="#" class="text-[13px] text-[#38BDF8] hover:underline">I already have an account · log in</a>
+          </div>
+        </form>
+      </section>
+
+      <!-- right: live log console -->
+      <section class="surface flex flex-col min-h-0 overflow-hidden">
+        <div class="flex items-center gap-2 px-4 h-11 border-b border-[#243042] text-[12px] mono">
+          <span class="w-3 h-3 rounded-full bg-[#F87171]"></span>
+          <span class="w-3 h-3 rounded-full bg-[#FBBF24]"></span>
+          <span class="w-3 h-3 rounded-full bg-[#22C55E]"></span>
+          <span class="ml-2 text-[#9aa7ba]">console - opsctl provision</span>
+          <span class="ml-auto chip px-2 py-0.5 text-[#22C55E]">running</span>
+        </div>
+        <div id="log" class="log flex-1 overflow-auto p-4 text-[12.5px] leading-relaxed">
+          <div class="log-line"><span class="text-[#5b6b80]">[10:42:01]</span> <span class="text-[#38BDF8]">INFO</span> opsctl provision started</div>
+          <div class="log-line"><span class="text-[#5b6b80]">[10:42:01]</span> <span class="text-[#38BDF8]">INFO</span> env=production cwd=~/cluster/ops</div>
+          <div class="log-line"><span class="text-[#5b6b80]">[10:42:02]</span> <span class="text-[#22C55E]">OK</span>   connection verified (api.cluster.io)</div>
+          <div class="log-line warn"><span class="text-[#5b6b80]">[10:42:03]</span> WARN waiting for form input...</div>
+          <div class="log-line"><span class="text-[#5b6b80]">[10:42:03]</span> <span class="text-[#38BDF8]">INFO</span> 4 field validation rules loaded</div>
+        </div>
+        <!-- command input -->
+        <div class="border-t border-[#243042] p-3 flex items-center gap-2 mono text-[13px]">
+          <span class="text-[#22C55E]">➜</span>
+          <input id="cmd" class="flex-1 bg-transparent outline-none text-[#CFFFE0] placeholder:text-[#5b6b80]" placeholder="enter command (e.g. status, clear)">
+          <button id="run" class="chip px-3 py-1 text-[12px] text-[#38BDF8] hover:bg-[#16263a]">Run</button>
+        </div>
+      </section>
+    </div>
+
+    <!-- bottom status bar -->
+    <footer class="h-7 shrink-0 bg-[#0c1626] border-t border-[#1d2840] flex items-center gap-4 px-4 mono text-[11px] text-[#7a8aa0]">
+      <span class="text-[#22C55E]"><i class="fa-solid fa-circle text-[7px] mr-1"></i>connected</span>
+      <span>operator</span><span>production</span><span class="ml-auto">queue: 0 · errors: 0</span>
+    </footer>
+  </main>
+
+<script>
+const $=id=>document.getElementById(id);
+const log=$('log');
+function append(html,cls=''){const d=document.createElement('div');d.className='log-line '+cls;const t=new Date().toLocaleTimeString('en-GB',{hour12:false});d.innerHTML='<span class="text-[#5b6b80]">['+t+']</span> '+html;log.appendChild(d);log.scrollTop=log.scrollHeight;}
+function preview(){const n=$('name').value,e=$('email').value;$('preview').textContent='opsctl user create --name "'+n+'" --email "'+e+'" --role operator';}
+['name','email'].forEach(id=>$(id).addEventListener('input',preview));
+function setErr(input,on){const w=input.closest('.fin');if(w)w.classList.toggle('err',on);const p=(w?w.parentElement:input.parentElement).querySelector('.msg');if(p)p.classList.toggle('hidden',!on);}
+$('form').addEventListener('submit',e=>{
+  e.preventDefault();let ok=true;
+  const n=$('name'),em=$('email'),p=$('pass'),p2=$('pass2');
+  if(!n.value.trim()){setErr(n,true);ok=false;}else setErr(n,false);
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em.value)){setErr(em,true);ok=false;}else setErr(em,false);
+  if(p.value.length<6){setErr(p,true);ok=false;}else setErr(p,false);
+  if(p2.value!==p.value||!p2.value){setErr(p2,true);ok=false;}else setErr(p2,false);
+  const tm=$('terms').parentElement.nextElementSibling;
+  if(!$('terms').checked){tm.classList.remove('hidden');ok=false;}else tm.classList.add('hidden');
+  if(!ok){append('<span class="text-[#F87171]">ERR</span>  validation failed - check the fields','error');return;}
+  append('<span class="text-[#38BDF8]">INFO</span> running opsctl user create...');
+  setTimeout(()=>append('<span class="text-[#22C55E]">OK</span>   user created: '+$('email').value),600);
+});
+$('run').addEventListener('click',()=>{
+  const v=$('cmd').value.trim();if(!v)return;
+  append('<span class="text-[#38BDF8]">$</span>   '+v);
+  if(v==='clear')log.innerHTML='';else if(v==='status')append('<span class="text-[#22C55E]">OK</span>   all systems healthy');
+  $('cmd').value='';
+});
+$('cmd').addEventListener('keydown',e=>{if(e.key==='Enter')$('run').click();});
+preview();
+</script>
+</body>
+</html>

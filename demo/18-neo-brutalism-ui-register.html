@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIGN UP - Neo Brutalism</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --brutal-bg:#fef08a;--brutal-surface:#ffffff;--brutal-text:#000000;--brutal-border:#000000;
+    --brutal-primary:#f9a8d4;--brutal-secondary:#93c5fd;--brutal-success:#86efac;
+    --brutal-warning:#fdba74;--brutal-danger:#ef4444;--brutal-shadow:5px 5px 0 #000000;
+  }
+  body{background:var(--brutal-bg);font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--brutal-text);
+    background-image:linear-gradient(#0001 1px,transparent 1px),linear-gradient(90deg,#0001 1px,transparent 1px);background-size:28px 28px;}
+  .archivo{font-family:'Archivo',sans-serif;}
+  .card{background:var(--brutal-surface);border:3px solid #000;box-shadow:8px 8px 0 #000;}
+  .field{background:#fff;border:3px solid #000;padding:11px 13px;width:100%;font-weight:700;outline:none;font-size:15px;}
+  .field:focus{box-shadow:4px 4px 0 #000;}
+  .field.err{border-color:var(--brutal-danger);background:#fff1f1;}
+  .btn{border:3px solid #000;box-shadow:var(--brutal-shadow);font-weight:800;transition:none;}
+  .btn:active{transform:translate(2px,2px);box-shadow:3px 3px 0 #000;}
+  .errtext{color:#000;background:var(--brutal-danger);font-weight:800;font-size:12px;padding:2px 6px;display:inline-block;border:2px solid #000;margin-top:6px;}
+  .chip{border:3px solid #000;box-shadow:3px 3px 0 #000;}
+</style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+<div class="w-full max-w-md">
+  <!-- Header -->
+  <div class="flex items-center justify-between mb-5">
+    <div class="chip bg-[#86efac] px-3 py-1.5 archivo font-black text-lg flex items-center gap-2">
+      <i class="fa-solid fa-bolt"></i> ZONE
+    </div>
+    <span class="chip bg-[#93c5fd] px-3 py-1 text-sm font-extrabold rotate-2">NEW!</span>
+  </div>
+
+  <div class="card p-6">
+    <h1 class="archivo font-black text-3xl leading-none mb-1">SIGN UP.</h1>
+    <p class="font-bold text-sm mb-6">Create your account in 30 seconds. Let's get started! ✌️</p>
+
+    <form id="frm" class="space-y-4" novalidate>
+      <div>
+        <label class="font-extrabold text-sm uppercase block mb-1" for="ad">Full name</label>
+        <input id="ad" class="field" type="text" placeholder="Your full name">
+        <div class="errtext hidden" data-e="ad"></div>
+      </div>
+      <div>
+        <label class="font-extrabold text-sm uppercase block mb-1" for="email">Email</label>
+        <input id="email" class="field" type="text" placeholder="you@mail.com">
+        <div class="errtext hidden" data-e="email"></div>
+      </div>
+      <div>
+        <label class="font-extrabold text-sm uppercase block mb-1" for="pw">Password</label>
+        <input id="pw" class="field" type="password" placeholder="••••••">
+        <div class="errtext hidden" data-e="pw"></div>
+      </div>
+      <div>
+        <label class="font-extrabold text-sm uppercase block mb-1" for="pw2">Confirm password</label>
+        <input id="pw2" class="field" type="password" placeholder="••••••">
+        <div class="errtext hidden" data-e="pw2"></div>
+      </div>
+
+      <label class="flex items-start gap-3 cursor-pointer bg-[#fef08a] border-[3px] border-black p-3">
+        <input id="terms" type="checkbox" class="mt-0.5 w-5 h-5 accent-black border-2 border-black">
+        <span class="font-bold text-sm">I accept the <span class="underline">terms of use</span> and privacy policy.</span>
+      </label>
+      <div class="errtext hidden" data-e="terms"></div>
+
+      <div id="banner" class="hidden border-[3px] border-black p-3 font-extrabold text-sm"></div>
+
+      <button type="submit" class="btn bg-[#f9a8d4] w-full py-3.5 text-base uppercase mt-2">
+        <i class="fa-solid fa-arrow-right-to-bracket"></i> Create Account
+      </button>
+    </form>
+
+    <p class="text-center font-bold text-sm mt-5">
+      Already a member? <a href="#" class="bg-[#93c5fd] border-2 border-black px-2 py-0.5 inline-block font-extrabold">LOG IN</a>
+    </p>
+  </div>
+</div>
+
+<script>
+const f=document.getElementById('frm'),banner=document.getElementById('banner');
+const show=(k,m)=>{const e=document.querySelector(`[data-e="${k}"]`);e.textContent='⚠ '+m;e.classList.remove('hidden');const i=document.getElementById(k);if(i)i.classList.add('err');};
+const clr=()=>{document.querySelectorAll('.errtext').forEach(e=>e.classList.add('hidden'));document.querySelectorAll('.field').forEach(e=>e.classList.remove('err'));banner.classList.add('hidden');};
+f.addEventListener('submit',ev=>{
+  ev.preventDefault();clr();let ok=true;
+  const ad=document.getElementById('ad').value.trim(),em=document.getElementById('email').value.trim();
+  const pw=document.getElementById('pw').value,pw2=document.getElementById('pw2').value;
+  if(!ad){show('ad','Full name is required');ok=false;}
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){show('email','Enter a valid email');ok=false;}
+  if(pw.length<6){show('pw','At least 6 characters');ok=false;}
+  if(pw2!==pw||!pw2){show('pw2','Passwords do not match');ok=false;}
+  if(!document.getElementById('terms').checked){show('terms','You must accept the terms');ok=false;}
+  banner.classList.remove('hidden');
+  if(ok){banner.style.background='#86efac';banner.textContent='✓ AWESOME! Your account has been created.';}
+  else{banner.style.background='#ef4444';banner.textContent='✕ CHECK THE FORM, SOME FIELDS ARE MISSING.';}
+});
+</script>
+</body>
+</html>

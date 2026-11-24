@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sign Up - Dev Console</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<style>
+:root{--bg:#0B1020;--surface:#111827;--surface-2:#1E293B;--accent:#3B82F6;--success:#22C55E;--text:#E5E7EB;--radius:12px;--shadow:0 16px 40px rgba(0,0,0,.35);}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+.mono{font-family:'JetBrains Mono','SF Mono',monospace;}
+.field{background:#0B1020;border:1px solid #1E293B;transition:all .18s ease-out;}
+.field:focus{outline:none;border-color:#3B82F6;box-shadow:0 0 0 2px rgba(59,130,246,.5);}
+.field.invalid{border-color:#ef4444;box-shadow:0 0 0 2px rgba(239,68,68,.4);}
+.btn-primary{background:#3B82F6;transition:all .18s ease-out;}
+.btn-primary:hover{background:#2f74e6;}
+.btn-primary:active{transform:scale(.98);}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed;}
+.act-icon{transition:.15s;}
+.act-icon:hover{background:#1E293B;color:#E5E7EB;}
+.act-icon.active{background:#1E293B;color:#3B82F6;box-shadow:inset 2px 0 0 #3B82F6;}
+.tree:hover{background:#1E293B;}
+.tab.active{background:#0B1020;color:#E5E7EB;border-top:2px solid #3B82F6;}
+</style>
+</head>
+<body>
+<div class="h-screen flex flex-col">
+  <!-- title bar -->
+  <div class="h-9 flex items-center px-3 gap-2 text-xs mono shrink-0" style="background:#0B1020;border-bottom:1px solid #1E293B;color:#94a3b8;">
+    <span class="w-3 h-3 rounded-full bg-[#ff5f56]"></span><span class="w-3 h-3 rounded-full bg-[#ffbd2e]"></span><span class="w-3 h-3 rounded-full bg-[#27c93f]"></span>
+    <span class="ml-3">devconsole - register.tsx</span>
+  </div>
+
+  <div class="flex flex-1 min-h-0">
+    <!-- activity bar -->
+    <div class="w-12 flex flex-col items-center py-3 gap-1 shrink-0" style="background:#0B1020;border-right:1px solid #1E293B;color:#64748b;">
+      <a href="#" class="act-icon w-9 h-9 rounded-lg flex items-center justify-center"><i class="fa-solid fa-folder"></i></a>
+      <a href="#" class="act-icon active w-9 h-9 rounded-lg flex items-center justify-center"><i class="fa-solid fa-user-plus"></i></a>
+      <a href="#" class="act-icon w-9 h-9 rounded-lg flex items-center justify-center"><i class="fa-solid fa-code-branch"></i></a>
+      <a href="#" class="act-icon w-9 h-9 rounded-lg flex items-center justify-center"><i class="fa-solid fa-magnifying-glass"></i></a>
+      <a href="#" class="act-icon mt-auto w-9 h-9 rounded-lg flex items-center justify-center"><i class="fa-solid fa-gear"></i></a>
+    </div>
+
+    <!-- explorer -->
+    <div class="hidden md:flex flex-col w-56 shrink-0" style="background:#111827;border-right:1px solid #1E293B;">
+      <div class="px-3 py-2 text-[11px] font-semibold tracking-wide mono" style="color:#64748b;">EXPLORER</div>
+      <div class="px-1 text-sm" style="color:#94a3b8;">
+        <div class="tree mono px-2 py-1.5 rounded flex items-center gap-2"><i class="fa-solid fa-chevron-down text-[10px]"></i> auth</div>
+        <div class="tree mono px-2 py-1.5 rounded flex items-center gap-2 pl-6" style="color:#3B82F6;"><i class="fa-brands fa-react"></i> register.tsx</div>
+        <div class="tree mono px-2 py-1.5 rounded flex items-center gap-2 pl-6"><i class="fa-brands fa-react"></i> login.tsx</div>
+        <div class="tree mono px-2 py-1.5 rounded flex items-center gap-2 pl-6"><i class="fa-solid fa-file-code"></i> auth.ts</div>
+        <div class="tree mono px-2 py-1.5 rounded flex items-center gap-2"><i class="fa-solid fa-chevron-right text-[10px]"></i> components</div>
+      </div>
+    </div>
+
+    <!-- editor area -->
+    <div class="flex-1 flex flex-col min-w-0" style="background:#0B1020;">
+      <!-- tabs -->
+      <div class="flex text-sm shrink-0" style="background:#111827;border-bottom:1px solid #1E293B;color:#94a3b8;">
+        <div class="tab active mono px-4 py-2 flex items-center gap-2"><i class="fa-brands fa-react text-[#3B82F6]"></i> register.tsx <i class="fa-solid fa-xmark text-xs ml-1"></i></div>
+        <div class="tab mono px-4 py-2 flex items-center gap-2 opacity-60">auth.ts</div>
+      </div>
+
+      <!-- form panel -->
+      <div class="flex-1 overflow-auto flex items-start justify-center p-8">
+        <div class="w-full max-w-md rounded-xl p-7" style="background:#111827;border:1px solid #1E293B;box-shadow:var(--shadow);">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="mono text-xs px-2 py-0.5 rounded" style="background:#1E293B;color:#22C55E;">// new user</span>
+          </div>
+          <h1 class="font-semibold mt-2" style="font-size:28px;">Sign Up</h1>
+          <p class="text-sm mt-1" style="color:#94a3b8;">Create an account to access the developer console.</p>
+
+          <form id="form" novalidate class="space-y-4 mt-6">
+            <div>
+              <label class="block text-sm font-medium mb-1.5" for="name">Full name</label>
+              <input id="name" type="text" class="field w-full rounded-lg px-3.5 py-2.5 text-sm" placeholder="Ada Lovelace" />
+              <p class="text-xs mt-1 hidden mono" style="color:#f87171;" data-err></p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1.5" for="email">Email</label>
+              <input id="email" type="email" class="field w-full rounded-lg px-3.5 py-2.5 text-sm mono" placeholder="dev@console.io" />
+              <p class="text-xs mt-1 hidden mono" style="color:#f87171;" data-err></p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1.5" for="pass">Password</label>
+              <input id="pass" type="password" class="field w-full rounded-lg px-3.5 py-2.5 text-sm mono" placeholder="••••••••" />
+              <p class="text-xs mt-1 hidden mono" style="color:#f87171;" data-err></p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1.5" for="pass2">Confirm password</label>
+              <input id="pass2" type="password" class="field w-full rounded-lg px-3.5 py-2.5 text-sm mono" placeholder="••••••••" />
+              <p class="text-xs mt-1 hidden mono" style="color:#f87171;" data-err></p>
+            </div>
+            <div>
+              <label class="flex items-start gap-2.5 text-sm cursor-pointer" style="color:#94a3b8;">
+                <input id="terms" type="checkbox" class="mt-0.5 w-4 h-4 rounded accent-[#3B82F6]" />
+                <span>I accept the <a href="#" class="text-[#60A5FA] font-medium">terms of use</a>.</span>
+              </label>
+              <p class="text-xs mt-1 hidden mono" style="color:#f87171;" data-err></p>
+            </div>
+            <button id="submit" type="submit" class="btn-primary w-full rounded-lg py-2.5 text-white font-semibold text-sm flex items-center justify-center gap-2">
+              <span id="btnText">$ create-account</span>
+              <i id="spin" class="fa-solid fa-circle-notch fa-spin hidden"></i>
+            </button>
+            <p id="ok" class="hidden text-sm text-center font-medium rounded-lg py-2.5 mono" style="background:rgba(34,197,94,.12);color:#22C55E;"><i class="fa-solid fa-circle-check mr-1"></i> Account created.</p>
+          </form>
+          <p class="text-sm text-center mt-5" style="color:#94a3b8;">Already have an account? <a href="#" class="text-[#60A5FA] font-semibold">Log in</a></p>
+        </div>
+      </div>
+
+      <!-- terminal panel -->
+      <div class="h-32 shrink-0 hidden lg:flex flex-col" style="background:#0B1020;border-top:1px solid #1E293B;">
+        <div class="flex text-xs mono px-3 pt-2 gap-4" style="color:#64748b;">
+          <span class="text-[#E5E7EB] border-b-2 border-[#3B82F6] pb-1">TERMINAL</span><span>PROBLEMS</span><span>OUTPUT</span>
+        </div>
+        <div class="px-3 py-2 text-xs mono overflow-auto" style="color:#94a3b8;">
+          <p><span class="text-[#22C55E]">➜</span> auth <span class="text-[#60A5FA]">npm run dev</span></p>
+          <p class="text-[#22C55E]">✓ ready - register form mounted on :3000</p>
+          <p id="termlog" class="text-[#64748b]">waiting for input...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- status bar -->
+  <div class="h-6 shrink-0 flex items-center px-3 gap-4 text-[11px] mono text-white" style="background:#3B82F6;">
+    <span><i class="fa-solid fa-code-branch"></i> main</span>
+    <span><i class="fa-solid fa-circle-check"></i> 0 errors</span>
+    <span class="ml-auto">UTF-8</span><span>TSX</span><span>Ln 42, Col 8</span>
+  </div>
+</div>
+
+<script>
+const f=document.getElementById('form');
+const setErr=(el,msg)=>{const p=el.parentElement.querySelector('[data-err]');el.classList.add('invalid');p.textContent=msg;p.classList.remove('hidden');};
+const clr=el=>{const p=el.parentElement.querySelector('[data-err]');el.classList.remove('invalid');if(p)p.classList.add('hidden');};
+['name','email','pass','pass2'].forEach(id=>document.getElementById(id).addEventListener('input',e=>clr(e.target)));
+f.addEventListener('submit',e=>{
+  e.preventDefault();
+  document.getElementById('ok').classList.add('hidden');
+  const name=document.getElementById('name'),email=document.getElementById('email'),pass=document.getElementById('pass'),pass2=document.getElementById('pass2'),terms=document.getElementById('terms');
+  let ok=true;
+  if(name.value.trim().length<3){setErr(name,'error: name required (min 3 chars)');ok=false;}
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value)){setErr(email,'error: invalid email format');ok=false;}
+  if(pass.value.length<8){setErr(pass,'error: password min 8 chars');ok=false;}
+  if(pass2.value!==pass.value||!pass2.value){setErr(pass2,'error: passwords do not match');ok=false;}
+  if(!terms.checked){setErr(terms,'error: terms not accepted');ok=false;}
+  const tl=document.getElementById('termlog');
+  if(!ok){tl.textContent='✗ validation failed';tl.className='text-[#f87171]';return;}
+  const btn=document.getElementById('submit');btn.disabled=true;
+  document.getElementById('spin').classList.remove('hidden');document.getElementById('btnText').textContent='running...';
+  tl.textContent='⏳ POST /api/register ...';tl.className='text-[#fbbf24]';
+  setTimeout(()=>{btn.disabled=false;document.getElementById('spin').classList.add('hidden');document.getElementById('btnText').textContent='$ create-account';
+    document.getElementById('ok').classList.remove('hidden');tl.textContent='✓ 201 Created - user registered';tl.className='text-[#22C55E]';f.reset();},1400);
+});
+</script>
+</body>
+</html>

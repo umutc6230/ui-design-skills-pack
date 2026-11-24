@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sign Up - Glass Dashboard</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<style>
+:root{
+  --bg:linear-gradient(135deg,#eef6ff,#efeaff,#ffffff);
+  --glass-bg:rgba(255,255,255,.22);
+  --glass-border:rgba(255,255,255,.38);
+  --surface:rgba(255,255,255,.72);
+  --text:#101828;--blur:16px;--radius-lg:24px;
+  --shadow:0 18px 48px rgba(16,24,40,.10);
+}
+body{font-family:'Inter',system-ui,sans-serif;color:var(--text);background:var(--bg);min-height:100vh;}
+h1,h2,.display{font-family:'Plus Jakarta Sans','Inter',sans-serif;}
+.glass{background:var(--glass-bg);border:1px solid var(--glass-border);backdrop-filter:blur(var(--blur)) saturate(160%);-webkit-backdrop-filter:blur(var(--blur)) saturate(160%);}
+.surface{background:var(--surface);backdrop-filter:blur(var(--blur)) saturate(160%);-webkit-backdrop-filter:blur(var(--blur)) saturate(160%);}
+.orb{position:fixed;border-radius:9999px;filter:blur(80px);opacity:.55;z-index:0;}
+.field{transition:all .2s ease-out;}
+.field:focus{outline:none;border-color:#7AA8FF;box-shadow:0 0 0 2px #7AA8FF;}
+.field.invalid{border-color:#ef4444;box-shadow:0 0 0 2px rgba(239,68,68,.4);}
+.btn-primary{background:linear-gradient(135deg,#7AA8FF,#8F7CFF);transition:all .2s ease-out;}
+.btn-primary:hover{filter:brightness(1.05);box-shadow:0 14px 32px rgba(143,124,255,.35);}
+.btn-primary:active{transform:scale(.98);}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed;filter:none;box-shadow:none;}
+.nav-item:hover{background:rgba(255,255,255,.4);}
+.nav-item.active{background:rgba(122,168,255,.22);color:#3b5bdb;}
+.err-text{color:#dc2626;}
+</style>
+</head>
+<body>
+<div class="orb" style="width:420px;height:420px;background:#CFE3FF;top:-80px;left:-60px;"></div>
+<div class="orb" style="width:480px;height:480px;background:#8F7CFF;bottom:-120px;right:-80px;"></div>
+<div class="orb" style="width:300px;height:300px;background:#7AA8FF;top:40%;left:45%;opacity:.35;"></div>
+
+<div class="relative z-10 min-h-screen flex">
+  <!-- Blurred sidebar -->
+  <aside class="hidden lg:flex flex-col w-64 m-5 mr-0 rounded-3xl glass p-6" style="box-shadow:var(--shadow);">
+    <div class="flex items-center gap-3 mb-10">
+      <div class="w-10 h-10 rounded-2xl flex items-center justify-center text-white" style="background:linear-gradient(135deg,#7AA8FF,#8F7CFF);"><i class="fa-solid fa-layer-group"></i></div>
+      <span class="display font-bold text-lg">Nimbus</span>
+    </div>
+    <nav class="space-y-1 text-sm font-medium" style="color:#475467;">
+      <a class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl" href="#"><i class="fa-solid fa-gauge-high w-5"></i> Dashboard</a>
+      <a class="nav-item active flex items-center gap-3 px-3 py-2.5 rounded-xl" href="#"><i class="fa-solid fa-user-plus w-5"></i> Create Account</a>
+      <a class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl" href="#"><i class="fa-solid fa-chart-line w-5"></i> Analytics</a>
+      <a class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl" href="#"><i class="fa-solid fa-gear w-5"></i> Settings</a>
+    </nav>
+    <div class="mt-auto surface rounded-2xl p-4 text-xs" style="color:#475467;">
+      <p class="font-semibold mb-1" style="color:var(--text);">Premium experience</p>
+      A calm workspace with glass surfaces.
+    </div>
+  </aside>
+
+  <!-- Content -->
+  <main class="flex-1 flex items-center justify-center p-5 sm:p-10">
+    <div class="w-full max-w-md surface rounded-3xl p-8" style="box-shadow:var(--shadow);border:1px solid var(--glass-border);">
+      <div class="mb-7">
+        <p class="text-xs font-semibold tracking-wide" style="color:#7AA8FF;">NIMBUS ACCOUNT</p>
+        <h1 class="display font-bold mt-1" style="font-size:30px;">Sign Up</h1>
+        <p class="text-sm mt-1" style="color:#475467;">Join the premium dashboard in a few steps.</p>
+      </div>
+
+      <form id="form" novalidate class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium mb-1.5" for="name">Full Name</label>
+          <input id="name" type="text" class="field w-full rounded-xl bg-white/70 border border-white/60 px-4 py-3 text-sm" placeholder="Full name" />
+          <p class="err-text text-xs mt-1 hidden" data-err></p>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1.5" for="email">Email</label>
+          <input id="email" type="email" class="field w-full rounded-xl bg-white/70 border border-white/60 px-4 py-3 text-sm" placeholder="name@example.com" />
+          <p class="err-text text-xs mt-1 hidden" data-err></p>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1.5" for="pass">Password</label>
+          <input id="pass" type="password" class="field w-full rounded-xl bg-white/70 border border-white/60 px-4 py-3 text-sm" placeholder="At least 8 characters" />
+          <p class="err-text text-xs mt-1 hidden" data-err></p>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1.5" for="pass2">Confirm Password</label>
+          <input id="pass2" type="password" class="field w-full rounded-xl bg-white/70 border border-white/60 px-4 py-3 text-sm" placeholder="Re-enter your password" />
+          <p class="err-text text-xs mt-1 hidden" data-err></p>
+        </div>
+        <div>
+          <label class="flex items-start gap-2.5 text-sm cursor-pointer" style="color:#475467;">
+            <input id="terms" type="checkbox" class="mt-0.5 w-4 h-4 rounded accent-[#8F7CFF]" />
+            <span>I accept the <a href="#" style="color:#3b5bdb;" class="font-medium">terms of use</a> and the privacy policy.</span>
+          </label>
+          <p class="err-text text-xs mt-1 hidden" data-err></p>
+        </div>
+        <button id="submit" type="submit" class="btn-primary w-full rounded-xl py-3 text-white font-semibold text-sm flex items-center justify-center gap-2">
+          <span id="btnText">Create Account</span>
+          <i id="spin" class="fa-solid fa-circle-notch fa-spin hidden"></i>
+        </button>
+        <p id="ok" class="hidden text-sm text-center font-medium rounded-xl py-2.5" style="background:rgba(34,197,94,.14);color:#15803d;"><i class="fa-solid fa-circle-check mr-1"></i> Your account was created successfully.</p>
+      </form>
+
+      <p class="text-sm text-center mt-6" style="color:#475467;">Already have an account?
+        <a href="#" style="color:#3b5bdb;" class="font-semibold">Log in</a>
+      </p>
+    </div>
+  </main>
+</div>
+
+<script>
+const f=document.getElementById('form');
+const setErr=(el,msg)=>{const p=el.parentElement.querySelector('[data-err]');el.classList.add('invalid');p.textContent=msg;p.classList.remove('hidden');};
+const clr=el=>{const p=el.parentElement.querySelector('[data-err]');el.classList.remove('invalid');if(p)p.classList.add('hidden');};
+['name','email','pass','pass2'].forEach(id=>document.getElementById(id).addEventListener('input',e=>clr(e.target)));
+f.addEventListener('submit',e=>{
+  e.preventDefault();
+  document.getElementById('ok').classList.add('hidden');
+  const name=document.getElementById('name'),email=document.getElementById('email'),
+        pass=document.getElementById('pass'),pass2=document.getElementById('pass2'),terms=document.getElementById('terms');
+  let ok=true;
+  if(name.value.trim().length<3){setErr(name,'Please enter your full name.');ok=false;}
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value)){setErr(email,'Enter a valid email address.');ok=false;}
+  if(pass.value.length<8){setErr(pass,'Password must be at least 8 characters.');ok=false;}
+  if(pass2.value!==pass.value||!pass2.value){setErr(pass2,'Passwords do not match.');ok=false;}
+  if(!terms.checked){setErr(terms,'You must accept the terms.');ok=false;}
+  if(!ok)return;
+  const btn=document.getElementById('submit');btn.disabled=true;
+  document.getElementById('spin').classList.remove('hidden');document.getElementById('btnText').textContent='Creating';
+  setTimeout(()=>{btn.disabled=false;document.getElementById('spin').classList.add('hidden');
+    document.getElementById('btnText').textContent='Create Account';
+    document.getElementById('ok').classList.remove('hidden');f.reset();},1400);
+});
+</script>
+</body>
+</html>

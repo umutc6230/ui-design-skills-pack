@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up - Kanban Board</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{
+  --bg:#F8FAFC; --surface:#FFFFFF; --column:#F1F5F9; --border:#E5E7EB;
+  --accent:#3B82F6; --warning:#F59E0B; --text:#111827; --radius:16px;
+  --shadow:0 8px 24px rgba(17,24,39,.08);
+}
+*{font-family:'Inter','Segoe UI',sans-serif;}
+.head{font-family:'Manrope','Inter',sans-serif;}
+body{background:var(--bg);color:var(--text);}
+.surface{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);}
+.column{min-width:300px;background:var(--column);border-radius:var(--radius);}
+.card{background:#fff;border:1px solid var(--border);border-radius:12px;transition:.16s ease-out;}
+.card:hover{box-shadow:0 8px 20px rgba(17,24,39,.1);transform:translateY(-2px);}
+.card:active{transform:rotate(.4deg) scale(.99);}
+.nav:hover{background:rgba(59,130,246,.08);}
+.nav.active{background:rgba(59,130,246,.12);color:#3B82F6;font-weight:600;}
+.fin{border:1px solid var(--border);border-radius:10px;background:#fff;transition:.15s;}
+.fin:focus-within{border-color:#3B82F6;box-shadow:0 0 0 2px rgba(59,130,246,.2);}
+.fin.err{border-color:#EF4444;box-shadow:0 0 0 2px rgba(239,68,68,.16);}
+.fin input{outline:none;background:transparent;}
+.btn{background:#3B82F6;transition:.15s;}
+.btn:hover{background:#2f74e8;}
+.btn:active{transform:scale(.985);}
+.btn:focus-visible{outline:2px solid #111827;outline-offset:2px;}
+</style>
+</head>
+<body class="min-h-screen flex">
+  <!-- sidebar -->
+  <aside class="w-[230px] shrink-0 bg-white border-r border-[#E5E7EB] p-4 hidden md:flex flex-col gap-1">
+    <div class="flex items-center gap-2 px-2 py-3 mb-2">
+      <div class="w-9 h-9 rounded-xl bg-[#3B82F6] grid place-items-center text-white"><i class="fa-solid fa-table-columns"></i></div>
+      <span class="head font-bold text-[16px]">FlowBoard</span>
+    </div>
+    <p class="px-2 text-[11px] uppercase tracking-wide text-[#9CA3AF] mb-1">Boards</p>
+    <a class="nav active rounded-lg px-3 py-2.5 text-[14px] flex items-center gap-3"><i class="fa-solid fa-user-plus w-4"></i> Onboarding</a>
+    <a class="nav rounded-lg px-3 py-2.5 text-[14px] text-[#374151] flex items-center gap-3"><i class="fa-solid fa-rocket w-4"></i> Sprint 12</a>
+    <a class="nav rounded-lg px-3 py-2.5 text-[14px] text-[#374151] flex items-center gap-3"><i class="fa-solid fa-bug w-4"></i> Bugs</a>
+    <a class="nav rounded-lg px-3 py-2.5 text-[14px] text-[#374151] flex items-center gap-3"><i class="fa-solid fa-robot w-4"></i> AI Agent</a>
+    <div class="mt-auto nav rounded-lg px-3 py-2.5 text-[14px] text-[#374151] flex items-center gap-3"><i class="fa-solid fa-gear w-4"></i> Settings</div>
+  </aside>
+
+  <div class="flex-1 flex flex-col min-w-0">
+    <!-- board toolbar -->
+    <header class="h-16 shrink-0 bg-white border-b border-[#E5E7EB] flex items-center gap-3 px-6">
+      <div>
+        <h1 class="head text-[18px] font-bold leading-tight">Onboarding Board</h1>
+        <p class="text-[12px] text-[#6B7280]">New member sign-up flow</p>
+      </div>
+      <div class="fin flex items-center gap-2 px-3 h-9 ml-4 w-64"><i class="fa-solid fa-magnifying-glass text-[#9CA3AF] text-xs"></i><input class="text-[13px] w-full" placeholder="Search tasks"></div>
+      <button class="ml-2 text-[13px] text-[#374151] px-3 h-9 rounded-lg border border-[#E5E7EB] hover:bg-[#F1F5F9] flex items-center gap-2"><i class="fa-solid fa-filter text-xs"></i> Filter</button>
+      <div class="ml-auto flex -space-x-2">
+        <span class="w-8 h-8 rounded-full bg-[#3B82F6] text-white grid place-items-center text-xs border-2 border-white">UI</span>
+        <span class="w-8 h-8 rounded-full bg-[#F59E0B] text-white grid place-items-center text-xs border-2 border-white">AK</span>
+        <span class="w-8 h-8 rounded-full bg-[#111827] text-white grid place-items-center text-xs border-2 border-white">+3</span>
+      </div>
+      <button class="btn text-white text-[13px] font-medium px-4 h-9 rounded-lg flex items-center gap-2"><i class="fa-solid fa-plus"></i> New Task</button>
+    </header>
+
+    <!-- board -->
+    <div class="flex-1 overflow-x-auto p-6">
+      <div class="flex gap-5 h-full items-start" style="min-width:max-content">
+
+        <!-- Column: To Do (contains the register card open) -->
+        <section class="column p-3 w-[340px] flex flex-col gap-3 max-h-full">
+          <div class="flex items-center justify-between px-1">
+            <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-[#6B7280]"></span><span class="head font-semibold text-[14px]">To Do</span><span class="text-[11px] bg-white border border-[#E5E7EB] rounded-full px-2 py-0.5 text-[#6B7280]">3</span></div>
+            <i class="fa-solid fa-ellipsis text-[#9CA3AF]"></i>
+          </div>
+
+          <!-- the register form rendered as an expanded task/detail card -->
+          <div class="card p-4 ring-2 ring-[#3B82F6]/40">
+            <div class="flex items-center gap-2 mb-3">
+              <i class="fa-solid fa-grip-vertical text-[#CBD5E1] cursor-grab"></i>
+              <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-[#EFF6FF] text-[#3B82F6]">Sign-up</span>
+              <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-[#FEF3C7] text-[#B45309]">Priority</span>
+            </div>
+            <h3 class="head font-bold text-[16px] mb-3">Create Account</h3>
+            <form id="form" novalidate class="grid gap-3">
+              <div>
+                <div class="fin flex items-center gap-2 px-3 h-10"><i class="fa-solid fa-user text-[#9CA3AF] text-sm"></i><input id="name" class="text-[13px] w-full" placeholder="Full name"></div>
+                <p class="msg text-[11px] text-[#EF4444] mt-1 hidden">Enter your full name.</p>
+              </div>
+              <div>
+                <div class="fin flex items-center gap-2 px-3 h-10"><i class="fa-solid fa-envelope text-[#9CA3AF] text-sm"></i><input id="email" type="email" class="text-[13px] w-full" placeholder="Email"></div>
+                <p class="msg text-[11px] text-[#EF4444] mt-1 hidden">Enter a valid email.</p>
+              </div>
+              <div>
+                <div class="fin flex items-center gap-2 px-3 h-10"><i class="fa-solid fa-lock text-[#9CA3AF] text-sm"></i><input id="pass" type="password" class="text-[13px] w-full" placeholder="Password"></div>
+                <p class="msg text-[11px] text-[#EF4444] mt-1 hidden">At least 6 characters.</p>
+              </div>
+              <div>
+                <div class="fin flex items-center gap-2 px-3 h-10"><i class="fa-solid fa-lock text-[#9CA3AF] text-sm"></i><input id="pass2" type="password" class="text-[13px] w-full" placeholder="Confirm password"></div>
+                <p class="msg text-[11px] text-[#EF4444] mt-1 hidden">Passwords do not match.</p>
+              </div>
+              <label class="flex items-start gap-2 cursor-pointer">
+                <input id="terms" type="checkbox" class="mt-0.5 w-4 h-4 accent-[#3B82F6]">
+                <span class="text-[12px] text-[#374151]">I accept the terms.</span>
+              </label>
+              <p class="msg text-[11px] text-[#EF4444] -mt-1 hidden">Accept the terms.</p>
+              <button id="submit" type="submit" class="btn text-white text-[13px] font-medium h-10 rounded-lg"><i class="fa-solid fa-user-plus mr-2"></i>Sign Up</button>
+              <p id="ok" class="hidden text-[12px] text-[#15803D] bg-[#F0FDF4] border border-[#BBF7D0] rounded-lg px-3 py-2"><i class="fa-solid fa-circle-check mr-1"></i>Done.</p>
+              <a href="#" class="text-[12px] text-center text-[#3B82F6] hover:underline">Already have an account? Log in</a>
+            </form>
+            <div class="flex items-center justify-between mt-3 pt-3 border-t border-[#F1F5F9] text-[11px] text-[#6B7280]">
+              <span><i class="fa-regular fa-calendar mr-1"></i>Jun 4</span>
+              <span class="w-6 h-6 rounded-full bg-[#3B82F6] text-white grid place-items-center text-[10px]">UI</span>
+            </div>
+          </div>
+
+          <div class="card p-3 text-[13px]">Email verification flow</div>
+          <button class="text-[13px] text-[#6B7280] hover:bg-white rounded-lg py-2 flex items-center justify-center gap-2"><i class="fa-solid fa-plus text-xs"></i> Add card</button>
+        </section>
+
+        <!-- Column: In Progress -->
+        <section class="column p-3 w-[340px] flex flex-col gap-3">
+          <div class="flex items-center justify-between px-1">
+            <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-[#3B82F6]"></span><span class="head font-semibold text-[14px]">In Progress</span><span class="text-[11px] bg-white border border-[#E5E7EB] rounded-full px-2 py-0.5 text-[#6B7280]">1</span></div>
+            <i class="fa-solid fa-ellipsis text-[#9CA3AF]"></i>
+          </div>
+          <div class="card p-4">
+            <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-[#FEF3C7] text-[#B45309]">Design</span>
+            <h3 class="font-semibold text-[14px] mt-2">Login screen revision</h3>
+            <div class="flex items-center justify-between mt-3 text-[11px] text-[#6B7280]"><span><i class="fa-regular fa-calendar mr-1"></i>Jun 6</span><span class="w-6 h-6 rounded-full bg-[#F59E0B] text-white grid place-items-center text-[10px]">AK</span></div>
+          </div>
+          <button class="text-[13px] text-[#6B7280] hover:bg-white rounded-lg py-2 flex items-center justify-center gap-2"><i class="fa-solid fa-plus text-xs"></i> Add card</button>
+        </section>
+
+        <!-- Column: Done (empty state) -->
+        <section class="column p-3 w-[340px] flex flex-col gap-3">
+          <div class="flex items-center justify-between px-1">
+            <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-[#22C55E]"></span><span class="head font-semibold text-[14px]">Done</span><span class="text-[11px] bg-white border border-[#E5E7EB] rounded-full px-2 py-0.5 text-[#6B7280]">0</span></div>
+            <i class="fa-solid fa-ellipsis text-[#9CA3AF]"></i>
+          </div>
+          <div class="border-2 border-dashed border-[#CBD5E1] rounded-xl py-10 text-center text-[13px] text-[#94A3B8]">
+            <i class="fa-regular fa-circle-check text-2xl mb-2 block"></i>
+            No completed tasks yet.<br><span class="text-[#3B82F6] cursor-pointer">Drag or add a card</span>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+<script>
+const $=id=>document.getElementById(id);
+function setErr(input,on){const w=input.closest('.fin');if(w)w.classList.toggle('err',on);const p=(w?w.parentElement:input.parentElement).querySelector('.msg');if(p)p.classList.toggle('hidden',!on);}
+$('form').addEventListener('submit',e=>{
+  e.preventDefault();let ok=true;
+  const n=$('name'),em=$('email'),p=$('pass'),p2=$('pass2');
+  if(!n.value.trim()){setErr(n,true);ok=false;}else setErr(n,false);
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em.value)){setErr(em,true);ok=false;}else setErr(em,false);
+  if(p.value.length<6){setErr(p,true);ok=false;}else setErr(p,false);
+  if(p2.value!==p.value||!p2.value){setErr(p2,true);ok=false;}else setErr(p2,false);
+  const tm=$('terms').parentElement.nextElementSibling;
+  if(!$('terms').checked){tm.classList.remove('hidden');ok=false;}else tm.classList.add('hidden');
+  if(ok)$('ok').classList.remove('hidden');
+});
+</script>
+</body>
+</html>
